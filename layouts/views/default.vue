@@ -27,7 +27,8 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Toolbar</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
+      <!-- <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon> -->
+      <v-icon @click.stop="drawerRight = !drawerRight" large>sync</v-icon>
     </v-toolbar>
     <v-navigation-drawer
       v-model="drawer"
@@ -63,6 +64,7 @@
     ></v-navigation-drawer>
     <v-footer
       class="white--text"
+      light
       app>
       <span>Vuetify</span>
       <v-spacer></v-spacer>
@@ -87,4 +89,5 @@
 <style lang="stylus" scoped>
 footer
   padding 10px
+  color #545454 !important
 </style>
