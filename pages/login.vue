@@ -18,7 +18,7 @@
                   >
                     <v-icon large>bubble_chart</v-icon>
                   </v-btn>
-                  <span>Source</span>
+                  <span>注册</span>
                 </v-tooltip>
                 <!-- <v-tooltip right>
                   <v-btn slot="activator" icon large href="https://codepen.io/johnjleider/pen/wyYVVj" target="_blank">
