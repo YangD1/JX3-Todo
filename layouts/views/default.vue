@@ -18,11 +18,11 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
-      color="blue-grey"
-      dark
       fixed
       app
       clipped-right
+      dark
+      color="primary"
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Toolbar</v-toolbar-title>
@@ -61,7 +61,9 @@
       temporary
       fixed
     ></v-navigation-drawer>
-    <v-footer color="blue-grey" class="white--text" app>
+    <v-footer
+      class="white--text"
+      app>
       <span>Vuetify</span>
       <v-spacer></v-spacer>
       <span>&copy; 2017</span>
