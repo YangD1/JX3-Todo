@@ -5,6 +5,7 @@
       fixed
       right
       clipped
+      disable-route-watcher
       app
     >
       <v-list dense>
@@ -33,6 +34,38 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <div class="text-xs-center">
+        <v-btn
+          :disabled="dialog"
+          :loading="dialog"
+          class="white--text"
+          color="primary"
+          @click="dialog = true"
+        >
+        <v-icon>sync</v-icon>
+        <span> 同步</span>
+        </v-btn>
+        <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark
+          >
+            <v-card-text>
+              正在同步...
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-navigation-drawer>
     <v-toolbar
       fixed
@@ -53,6 +86,7 @@
     <v-navigation-drawer
       v-model="drawer"
       fixed
+      disable-route-watcher
       app
     >
       <v-list dense>
@@ -70,7 +104,9 @@
       v-model="left"
       temporary
       fixed
-    ></v-navigation-drawer>
+    >
+    left slide
+    </v-navigation-drawer>
     <v-content>
       <v-container>
         <nuxt />
@@ -81,7 +117,9 @@
       right
       temporary
       fixed
-    ></v-navigation-drawer>
+    >
+    right slide
+    </v-navigation-drawer>
     <v-footer
       class="white--text"
       light
@@ -99,10 +137,18 @@
       drawer: false,
       drawerRight: false,
       right: false,
-      left: false
+      left: false,
+      dialog: false
     }),
     props: {
       source: String
+    },
+    watch: {
+      dialog (val) {
+        if (!val) return
+
+        setTimeout(() => (this.dialog = false), 4000)
+      }
     }
   }
 </script>
