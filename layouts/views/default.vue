@@ -195,7 +195,12 @@
       dialog (val) {
         if (!val) return
         setTimeout(() => (this.dialog = false), 4000)
-      }
+      },
+      '$route': function(){
+        this.left = false
+        this.drawer = false
+        this.drawerRight = false
+      },
     },
     head:{
       title: 'JX3 Todo'
