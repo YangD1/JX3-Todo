@@ -8,33 +8,36 @@
       disable-route-watcher
       app
     >
-      <v-list dense>
-        <v-list-tile @click.stop="right = !right">
-          <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer1111</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click.stop="right = !right">
-          <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer1111</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click.stop="right = !right">
-          <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer1111</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <div class="text-xs-center">
+      <v-tabs
+        centered
+        color="primary"
+        slider-color="yellow"
+        dark>
+        <v-tab
+          ripple
+          v-for="n in 2"
+          :key="n"
+        >
+          操作 {{ n }}
+        </v-tab>
+        <v-tab-item
+          v-for="n in 3"
+          :key="n"
+        >
+          <v-card style="padding: 10px 20px" flat>
+            <v-card-text>item {{ n }}</v-card-text>
+            <v-text-field
+              label="User name"
+              required
+            ></v-text-field>
+            <v-text-field
+              label="Password"
+              required
+            ></v-text-field>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
+      <div class="async-div text-xs-center">
         <v-btn
           :disabled="dialog"
           :loading="dialog"
@@ -149,6 +152,9 @@
 
         setTimeout(() => (this.dialog = false), 4000)
       }
+    },
+    head:{
+      title: 'JX3 Todo'
     }
   }
 </script>
