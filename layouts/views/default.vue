@@ -9,6 +9,7 @@
       app
     >
       <v-tabs
+        class="right-slide-tab"
         centered
         color="primary"
         slider-color="yellow"
@@ -25,15 +26,17 @@
           :key="n"
         >
           <v-card style="padding: 10px 20px" flat>
-            <v-card-text>item {{ n }}</v-card-text>
             <v-text-field
-              label="User name"
+              label="Email"
               required
             ></v-text-field>
             <v-text-field
               label="Password"
               required
             ></v-text-field>
+            <div class="text-xs-center">
+              <v-btn color="#0277BD" dark>登录</v-btn>
+            </div>
           </v-card>
         </v-tab-item>
       </v-tabs>
@@ -149,7 +152,6 @@
     watch: {
       dialog (val) {
         if (!val) return
-
         setTimeout(() => (this.dialog = false), 4000)
       }
     },
@@ -158,7 +160,10 @@
     }
   }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
+.right-slide-tab
+  .v-tabs__item--active
+    font-size 16px
 footer
   padding 10px
   color #545454 !important
