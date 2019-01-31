@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="todobody">
     <v-navigation-drawer
       v-model="drawerRight"
       fixed
@@ -96,12 +96,36 @@
       app
     >
       <v-list dense>
-        <v-list-tile @click.stop="left = !left">
+        <v-list-tile
+          v-for="item in items2"
+          :key="item.title"
+          nuxt
+          @click.stop="left = !left"
+          avatar
+        >
+          <!-- <nuxt-link to="/inspire"></nuxt-link> -->
+          <v-list-tile-avatar>
+            <v-icon :class="[item.iconClass]">{{ item.icon }}</v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+          </v-list-tile-content>
+
           <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
+            <v-btn icon ripple>
+              <v-icon color="grey lighten-1">info</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+        </v-list-tile>
+
+        <v-list-tile @click.stop="left = !left" disabled>
+          <v-list-tile-action>
+            <v-icon>perm_data_setting</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer 123</v-list-tile-title>
+            <v-list-tile-title style="font-size: 14px">参与项目</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -118,16 +142,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-navigation-drawer
-      v-model="right"
-      right
-      temporary
-      fixed
-    >
-    right slide
-    </v-navigation-drawer>
     <v-footer
-      class="white--text"
       light
       app>
       <span>Vuetify</span>
@@ -142,9 +157,17 @@
     data: () => ({
       drawer: false,
       drawerRight: false,
-      right: false,
       left: false,
-      dialog: false
+      dialog: false,
+      items: [
+        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Photos', subtitle: 'Jan 9, 2014' },
+        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Recipes', subtitle: 'Jan 17, 2014' },
+        { icon: 'folder', iconClass: 'grey lighten-1 white--text', title: 'Work', subtitle: 'Jan 28, 2014' }
+      ],
+      items2: [
+        { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '同步时间: 2018-9-22 3:20 pm' },
+        { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '同步时间：2018-9-22 5:00 pm' }
+      ]
     }),
     props: {
       source: String
@@ -161,6 +184,9 @@
   }
 </script>
 <style lang="stylus">
+#todobody
+  .v-navigation-drawer > .v-list .v-list__tile
+    margin 10px
 .right-slide-tab
   .v-tabs__item--active
     font-size 16px
