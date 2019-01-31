@@ -99,11 +99,11 @@
         <v-list-tile
           v-for="item in items2"
           :key="item.title"
+          router
           nuxt
-          @click.stop="left = !left"
+          to="/"
           avatar
         >
-          <!-- <nuxt-link to="/inspire"></nuxt-link> -->
           <v-list-tile-avatar>
             <v-icon :class="[item.iconClass]">{{ item.icon }}</v-icon>
           </v-list-tile-avatar>
