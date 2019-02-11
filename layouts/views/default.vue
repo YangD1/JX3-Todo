@@ -239,6 +239,9 @@
 #todobody
   .v-navigation-drawer > .v-list .v-list__tile
     margin 10px
+  .v-avatar img
+    height auto
+    width auto
 .right-slide-tab
   .v-tabs__item--active
     font-size 16px
