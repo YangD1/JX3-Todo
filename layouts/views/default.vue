@@ -157,7 +157,31 @@
       temporary
       fixed
     >
-    left slide
+    <v-list>
+      <v-list-tile
+        v-for="item in accountItems"
+        :key="item.title"
+        router
+        nuxt
+        :to="item.url"
+        avatar
+      >
+        <v-list-tile-avatar>
+          <img :src="item.icon">
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+
+        <v-list-tile-action>
+          <v-btn icon ripple>
+            <v-icon color="grey lighten-1">info</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
     </v-navigation-drawer>
     <v-content>
       <v-container>
@@ -167,9 +191,9 @@
     <v-footer
       light
       app>
-      <span>Vuetify</span>
+      <span>By - <a href="https://github.com/bykaii" target="_blank">Bykaii</a></span>
       <v-spacer></v-spacer>
-      <span>&copy; 2017</span>
+      <span>&copy; 2019</span>
     </v-footer>
   </v-app>
 </template>
@@ -186,6 +210,10 @@
       ],
       funcItems: [
         { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '同步时间：2018-9-22 5:00 pm' }
+      ],
+      accountItems: [
+        { icon: require('~/assets/mp-icon/cangjian.png'), title: '藏剑', subtitle: '2018-9-22 3:20 pm', url: '/gaibang' },
+        { icon: require('~/assets/mp-icon/gaibang.png'), title: '丐帮', subtitle: '2018-9-22 3:20 pm', url: '/cangjian' },
       ],
     }),
     props: {
