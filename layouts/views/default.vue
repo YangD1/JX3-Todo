@@ -109,8 +109,9 @@
         </v-list-tile-avatar>
 
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+          <h3>
+            {{ item.title }}
+          </h3>
         </v-list-tile-content>
 
         <v-list-tile-action>
@@ -131,8 +132,7 @@
         </v-list-tile-avatar>
 
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+          <h3>{{ item.title }}</h3>
         </v-list-tile-content>
 
         <v-list-tile-action>
