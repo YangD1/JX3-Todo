@@ -1,20 +1,36 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <!-- <div class="text-xs-center">
-        <logo />
-        <vuetify-logo />
-      </div> -->
-      <v-card>
-        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
+  <v-layout>
+    <v-flex xs6 offset-xs3>
+      <v-card class="card--flex-toolbar">
+        <v-toolbar card prominent>
+          <v-toolbar-title class="body-2 grey--text">Title</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon>
+            <v-icon>search</v-icon>
+          </v-btn>
+
+          <v-btn icon>
+            <v-icon>apps</v-icon>
+          </v-btn>
+
+          <v-btn icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </v-toolbar>
+
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-tile
+            v-for="(item,index) in 10"
+            :key="index"
+            router
+            :to="'/'+item"
+          >
+            <v-list-tile-content>item {{ index }}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
         <v-card-text>
           do
         </v-card-text>

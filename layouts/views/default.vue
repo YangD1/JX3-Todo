@@ -206,10 +206,10 @@
       left: false,
       dialog: false,
       urlItems: [
-        { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '同步时间: 2018-9-22 3:20 pm' },
+        { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
       ],
       funcItems: [
-        { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '同步时间：2018-9-22 5:00 pm' }
+        { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '2018-9-22 5:00 pm' }
       ],
       accountItems: [
         { icon: require('~/assets/mp-icon/cangjian.png'), title: '藏剑', subtitle: '2018-9-22 3:20 pm', url: '/gaibang' },
