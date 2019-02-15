@@ -8,6 +8,7 @@
       disable-route-watcher
       app
     >
+    <!-- right slide tab -->
       <v-tabs
         class="right-slide-tab"
         centered
@@ -16,15 +17,15 @@
         dark>
         <v-tab
           ripple
-          v-for="n in 2"
-          :key="n"
         >
-          操作 {{ n }}
+        登录
         </v-tab>
-        <v-tab-item
-          v-for="n in 3"
-          :key="n"
+        <v-tab
+          ripple
         >
+        注册
+        </v-tab>
+        <v-tab-item>
           <v-card style="padding: 10px 20px" flat>
             <v-text-field
               label="Email"
@@ -36,6 +37,21 @@
             ></v-text-field>
             <div class="text-xs-center">
               <v-btn color="#0277BD" dark>登录</v-btn>
+            </div>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card style="padding: 10px 20px" flat>
+            <v-text-field
+              label="Email"
+              required
+            ></v-text-field>
+            <v-text-field
+              label="Password"
+              required
+            ></v-text-field>
+            <div class="text-xs-center">
+              <v-btn color="#30a91a" dark>注册</v-btn>
             </div>
           </v-card>
         </v-tab-item>
