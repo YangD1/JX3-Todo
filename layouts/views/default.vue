@@ -31,10 +31,12 @@
               label="Email"
               autofocus
               required
+              v-model="account.email"
             ></v-text-field>
             <v-text-field
               label="Password"
               type="password"
+              v-model="account.password"
               required
             ></v-text-field>
             <div class="text-xs-center">
@@ -46,11 +48,13 @@
           <v-card style="padding: 10px 20px" flat>
             <v-text-field
               label="Email"
+              v-model="account.email"
               required
             ></v-text-field>
             <v-text-field
               label="Password"
               type="password"
+              v-model="account.password"
               required
             ></v-text-field>
             <div class="text-xs-center">
@@ -222,7 +226,7 @@
     data: () => ({
       drawer: false,
       drawerRight: false,
-      account: {name: '', password: ''},
+      account: {email: '', password: ''},
       left: false,
       dialog: false,
       urlItems: [
