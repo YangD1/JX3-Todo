@@ -29,10 +29,12 @@
           <v-card style="padding: 10px 20px" flat>
             <v-text-field
               label="Email"
+              autofocus
               required
             ></v-text-field>
             <v-text-field
               label="Password"
+              type="password"
               required
             ></v-text-field>
             <div class="text-xs-center">
@@ -48,10 +50,11 @@
             ></v-text-field>
             <v-text-field
               label="Password"
+              type="password"
               required
             ></v-text-field>
             <div class="text-xs-center">
-              <v-btn color="#30a91a" dark>注册</v-btn>
+              <v-btn color="#30a91a" dark @click="register">注册</v-btn>
             </div>
           </v-card>
         </v-tab-item>
@@ -219,6 +222,7 @@
     data: () => ({
       drawer: false,
       drawerRight: false,
+      account: {name: '', password: ''},
       left: false,
       dialog: false,
       urlItems: [
@@ -232,6 +236,17 @@
         { icon: require('~/assets/mp-icon/gaibang.png'), title: '丐帮', subtitle: '2018-9-22 3:20 pm', url: '/cangjian' },
       ],
     }),
+    methods: {
+      register(){
+        this.$axios.post(this.$store.state.api.register)
+        .then(( response )=>{
+          console.log(response)
+        })
+        .catch((error)=>{
+          console.log(error)
+        })
+      }
+    },
     props: {
       source: String
     },

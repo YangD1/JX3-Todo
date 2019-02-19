@@ -1,4 +1,5 @@
+const BASE = process.env._api;
 export const state = () => ({
-  register:'/register',
-  login: '/login'
+  register: BASE + '/register',
+  login: BASE + '/login'
 })

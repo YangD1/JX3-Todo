@@ -49,7 +49,12 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
   ],
+
+  axios: {
+    // proxyHeaders: false
+  },
 
   /*
   ** Build configuration
@@ -62,12 +67,16 @@ module.exports = {
         import: ["~assets/style/variables.styl"]
       }
     },
-    
+
     /*
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
+  },
+
+  env: {
+    _api: process.env.NODE_ENV !== 'production' ? "http://127.0.0.1:3344" : "http://47.91.228.104:8084",
   }
 }
