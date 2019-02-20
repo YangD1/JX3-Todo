@@ -56,6 +56,10 @@ module.exports = {
     // proxyHeaders: false
   },
 
+  router: {
+    middleware: 'auth'
+  },
+
   /*
   ** Build configuration
   */
@@ -78,5 +82,6 @@ module.exports = {
 
   env: {
     _api: process.env.NODE_ENV !== 'production' ? "http://127.0.0.1:3344" : "http://47.91.228.104:8084",
+    PORT: 2233
   }
 }
