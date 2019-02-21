@@ -1,5 +1,6 @@
 <template>
   <v-app id="todobody">
+    <!-- base right navigation drawer -->
     <v-navigation-drawer
       v-model="drawerRight"
       fixed
@@ -96,6 +97,8 @@
         </v-dialog>
       </div>
     </v-navigation-drawer>
+
+    <!-- header toolbar -->
     <v-toolbar
       fixed
       app
@@ -112,6 +115,8 @@
         <v-icon @click.stop="drawerRight = !drawerRight" large>cloud</v-icon>
       </v-btn>
     </v-toolbar>
+
+    <!-- base left navigation drawer -->
     <v-navigation-drawer
       v-model="drawer"
       fixed
@@ -175,6 +180,8 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+
+    <!-- left navigation drawer -->
     <v-navigation-drawer
       v-model="left"
       temporary
@@ -206,15 +213,34 @@
       </v-list-tile>
     </v-list>
     </v-navigation-drawer>
+
+    <!-- content -->
     <v-content>
       <v-container>
         <nuxt />
       </v-container>
     </v-content>
+
+    <!-- snackbar -->
+    <v-snackbar
+      :top="true"
+      color="#F44336"
+      v-model="snackbar.state"
+    >
+      {{ snackbar.message }}
+      <v-btn
+        color="#cccccc"
+        flat
+        @click="snackbar.state = false"
+      >
+        ×
+      </v-btn>
+    </v-snackbar>
+    <!-- footer -->
     <v-footer
       light
       app>
-      <span>By - <a href="https://github.com/bykaii" target="_blank">Bykaii</a></span>
+      <span>By - <a href="https://github.com/enkeyi" target="_blank">Enkeyi</a></span>
       <v-spacer></v-spacer>
       <span>&copy; 2019</span>
     </v-footer>
@@ -229,6 +255,7 @@
       account: {email: '', password: ''},
       left: false,
       dialog: false,
+      snackbar: {state: false, message: 'Default info.'},
       urlItems: [
         { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
       ],
@@ -242,14 +269,21 @@
     }),
     methods: {
       register(){
-        this.$axios.post(this.$store.state.api.register, this.account)
-        .then(( response )=>{
-          console.log(response)
+        this.$axios.post( this.$store.state.api.register, this.account ).then(( response )=>{
+          this.snackbar.message = response.data.message
+          this.snackbar.state = true
           // do login
+        }).catch(( error )=>{
+          this.snackbar.message = error.response.data.message
+          this.snackbar.state = true
         })
-        .catch((error)=>{
-          console.log(error)
-          // show error message
+      },
+
+      login(){
+        this.$axios.post( this.$store.state.api.login, this.account ).then(( response ) => {
+          console.log( response )
+        }).catch(( error )=>{
+          console.log( error.data )
         })
       }
     },
