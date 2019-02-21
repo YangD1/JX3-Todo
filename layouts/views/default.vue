@@ -41,7 +41,7 @@
               required
             ></v-text-field>
             <div class="text-xs-center">
-              <v-btn color="#0277BD" dark>登录</v-btn>
+              <v-btn color="#0277BD" dark @click="login">登录</v-btn>
             </div>
           </v-card>
         </v-tab-item>
@@ -224,7 +224,7 @@
     <!-- snackbar -->
     <v-snackbar
       :top="true"
-      color="#F44336"
+      :color="snackbar.color"
       v-model="snackbar.state"
     >
       {{ snackbar.message }}
@@ -268,22 +268,47 @@
       ],
     }),
     methods: {
+      message({message, type}){
+        this.snackbar.message = message
+        this.snackbar.state = true
+        switch (type) {
+          case 'success':
+            this.snackbar.color = 'rgb(48, 169, 26)'
+            break;
+          case 'error':
+            this.snackbar.color = '#F44336'
+            break;
+          default:
+            this.snackbar.color = '#FFFFFF'
+            break;
+        }
+      },
       register(){
         this.$axios.post( this.$store.state.api.register, this.account ).then(( response )=>{
-          this.snackbar.message = response.data.message
-          this.snackbar.state = true
+          this.message({
+            message: response.data.message,
+            type: 'success'
+          })
           // do login
         }).catch(( error )=>{
-          this.snackbar.message = error.response.data.message
-          this.snackbar.state = true
+          this.message({
+            message: error.response.data.message,
+            type: 'error'
+          })
         })
       },
 
       login(){
         this.$axios.post( this.$store.state.api.login, this.account ).then(( response ) => {
-          console.log( response )
+          this.message({
+            message: response.data.message,
+            type: 'success'
+          })
         }).catch(( error )=>{
-          console.log( error.data )
+          this.message({
+            message: error.response.data.message,
+            type: 'error'
+          })
         })
       }
     },
