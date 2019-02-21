@@ -242,12 +242,14 @@
     }),
     methods: {
       register(){
-        this.$axios.post(this.$store.state.api.register)
+        this.$axios.post(this.$store.state.api.register, this.account)
         .then(( response )=>{
           console.log(response)
+          // do login
         })
         .catch((error)=>{
           console.log(error)
+          // show error message
         })
       }
     },
