@@ -304,6 +304,7 @@
             message: response.data.message,
             type: 'success'
           })
+          this.$store.dispatch('user/fetch')
         }).catch(( error )=>{
           this.message({
             message: error.response.data.message,
