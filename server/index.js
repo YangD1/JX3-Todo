@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const consola = require('consola')
 const Router = require('koa-router');
-const bodyParser = require('koa-bodyParser')
+const bodyParser = require('koa-bodyParser')  /* parser post */
 
 const {
   Nuxt,
@@ -20,9 +20,7 @@ async function start() {
 
   // loader router
   let router = new Router()
-  router.get('/list', (ctx) => {
-    ctx.body = '请求list';
-  });
+  app.use(require('./api/router').routes())
   app.use(router.routes(), router.allowedMethods());
 
   // Instantiate nuxt.js

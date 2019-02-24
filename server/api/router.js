@@ -1,10 +1,7 @@
-const Router = require('koa-router')
-
-let router = new Router
+const router = require('koa-router')()
 
 router.get('/list', (ctx) => {
-  ctx.body = '请求list';
+  ctx.body = "koa success make page"
 });
 
-
-// app.use(router.routes(), router.allowedMethods());
+module.exports = router;
