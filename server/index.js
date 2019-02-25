@@ -20,7 +20,7 @@ async function start() {
 
   // loader router
   let router = new Router()
-  app.use(require('./api/router').routes())
+  app.use(require('./api/index').routes())
   app.use(router.routes(), router.allowedMethods());
 
   // Instantiate nuxt.js
