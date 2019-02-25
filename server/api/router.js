@@ -10,7 +10,7 @@ router.get('/api/list', (ctx) => {
   ctx.body = "koa success make page"
 });
 
-router.post('/api/login',  (ctx) => {
+router.post('/api/login',  async (ctx) => {
   const token = 'this is token'
   const { email, password } = ctx.request.body
   console.log(email)
@@ -36,32 +36,33 @@ router.post('/api/login',  (ctx) => {
       email, password
     },
   }
-  var res
-  var fctx = ctx
   // var res
-  rp(options)
-    .then(function (body) {
-      // POST succeeded...
-      // console.log(body)
-      console.log(fctx)
-      console.log(ctx)
-      res = body
-      fctx.body = '1212'
-    })
-    .catch(function (err) {
-      // POST failed...
-      console.log(err)
-    });
+  let res = await rp(options)
   console.log(res)
+  res = JSON.parse(res)
+  console.log(res)
+  ctx.cookies.set('token',res.token, {
+    maxAge: 3600 * 1000,
+    httpOnly: true
+  })
+    // .then(function (body) {
+    //   // POST succeeded...
+    //   // console.log(body)
+    //   console.log(fctx)
+    //   console.log(ctx)
+    //   res = body
+    //   fctx.body = '1212'
+    // })
+    // .catch(function (err) {
+    //   // POST failed...
+    //   console.log(err)
+    // });
   // ctx.cookie.set('token',body.token, {
   //   maxAge: 3600 * 1000,
   //   httpOnly: true
   // })
-  // ctx.body = {
-  //   token: body.message
-  // }
   ctx.body = {
-    token: 1312
+    message: res.message
   }
 
 })
