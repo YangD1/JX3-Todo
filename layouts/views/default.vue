@@ -299,12 +299,11 @@
       },
 
       login(){
-        this.$axios.post( this.$store.state.api.login, this.account ).then(( response ) => {
+        this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
           this.message({
             message: response.data.message,
             type: 'success'
           })
-          this.$store.dispatch('user/fetch')
         }).catch(( error )=>{
           this.message({
             message: error.response.data.message,

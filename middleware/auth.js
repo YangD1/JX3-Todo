@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default function ({ route, res }) {
-  //
   // return axios.post('http://127.0.0.1:3344/register', {
   //   url: route.fullPath
   // }).then((response) => {
