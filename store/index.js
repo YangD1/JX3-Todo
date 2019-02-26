@@ -1,10 +1,10 @@
 import axios from 'axios'
 export const state = () => ({})
-export const action = {
+export const actions = {
   async nuxtServerInit({ commit, duspatch }, { req }){
-    console.log( req.headers.cookies )
-//
     if ( req.headers.cookies ){
+      // verify
+      axios.post()
     }
   }
 }

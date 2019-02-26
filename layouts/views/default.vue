@@ -328,7 +328,16 @@
     },
     head:{
       title: 'JX3 Todo'
-    }
+    },
+    mounted() {
+     this.$axios.post('http://127.0.0.1:3344/verify')
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error.response.data)
+      })
+    },
   }
 </script>
 <style lang="stylus">
