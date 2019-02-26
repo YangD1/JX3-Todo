@@ -13,8 +13,6 @@ router.get('/api/list', (ctx) => {
 router.post('/api/login',  async (ctx) => {
   const token = 'this is token'
   const { email, password } = ctx.request.body
-  console.log(email)
-  console.log(password)
   const userInfo = {
     email: email,
     password: password

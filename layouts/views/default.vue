@@ -302,7 +302,7 @@
         this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
           this.message({
             message: response.data.message,
-            type: 'success'
+            type: response.data.type
           })
         }).catch(( error )=>{
           this.message({
