@@ -15,6 +15,7 @@
         centered
         color="primary"
         slider-color="yellow"
+        v-if="!$store.state.user"
         dark>
         <v-tab
           ripple
@@ -64,7 +65,10 @@
           </v-card>
         </v-tab-item>
       </v-tabs>
-      <div class="async-div text-xs-center">
+      <!-- async element -->
+      <div
+        class="async-div text-xs-center"
+        v-if="$store.state.user">
         <v-btn
           :disabled="dialog"
           :loading="dialog"
@@ -75,26 +79,12 @@
         <v-icon>sync</v-icon>
         <span> 同步</span>
         </v-btn>
-        <v-dialog
-          v-model="dialog"
-          hide-overlay
-          persistent
-          width="300"
-        >
-          <v-card
-            color="primary"
-            dark
-          >
-            <v-card-text>
-              正在同步...
-              <v-progress-linear
-                indeterminate
-                color="white"
-                class="mb-0"
-              ></v-progress-linear>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
+        <v-btn
+        color="error"
+        @click="logout">
+          <v-icon>power_settings_new</v-icon>
+          <span>  登出</span>
+        </v-btn>
       </div>
     </v-navigation-drawer>
 
@@ -229,13 +219,36 @@
     >
       {{ snackbar.message }}
       <v-btn
-        color="#cccccc"
+        color="#fff"
         flat
         @click="snackbar.state = false"
       >
         ×
       </v-btn>
     </v-snackbar>
+
+    <!-- dialog with async -->
+    <v-dialog
+      v-model="dialog"
+      hide-overlay
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          正在同步...
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
     <!-- footer -->
     <v-footer
       light
@@ -310,6 +323,37 @@
             type: 'error'
           })
         })
+      },
+
+      logout(){
+        this.$axios.post( 'http://127.0.0.1:2233/api/logout' ).then((response) => {
+          this.message({
+            message: response.data.message,
+            type: response.data.type
+          })
+        })
+        .catch((error) => {
+          this.message({
+            type: 'error',
+            message: '登出失败'
+          })
+        })
+      },
+
+      mountedMessage(){
+        let message = {}
+        if( this.$store.state.user ){
+          message = {
+            type: 'success',
+            message: '欢迎回来'
+          }
+        }else{
+          message = {
+            type: 'error',
+            message: '请重新登录'
+          }
+        }
+        this.message(message)
       }
     },
     props: {
@@ -330,17 +374,20 @@
       title: 'JX3 Todo'
     },
     mounted() {
-      console.log(this.$store.state.user)
+      // show message
+      this.mountedMessage()
     },
   }
 </script>
 <style lang="stylus">
-#todobody
+#odobody
   .v-navigation-drawer > .v-list .v-list__tile
     margin 10px
   .v-avatar img
     height auto
     width auto
+.async-div
+  padding 10px
 .right-slide-tab
   .v-tabs__item--active
     font-size 16px

@@ -8,6 +8,7 @@ export const actions = {
       await commit('setUser', data.user)
     } catch (error) {
       console.log('接口错误')
+      console.log(error.response.data)
     }
   }
 }
