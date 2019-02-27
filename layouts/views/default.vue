@@ -249,8 +249,21 @@
       </v-card>
     </v-dialog>
 
+    <!-- mobile slide button -->
+    <v-btn
+      class="hidden-lg-and-up"
+      fixed
+      dark
+      fab
+      bottom
+      right
+      color="pink"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
     <!-- footer -->
     <v-footer
+      class="hidden-md-and-down"
       light
       app>
       <span>By - <a href="https://github.com/enkeyi" target="_blank">Enkeyi</a></span>

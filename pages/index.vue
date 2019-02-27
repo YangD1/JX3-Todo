@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-flex xs6 offset-xs3>
+    <v-flex lg6 offset-lg3 xs12 >
       <v-card class="card--flex-toolbar">
         <v-toolbar card prominent>
           <v-toolbar-title class="body-2 grey--text">Title</v-toolbar-title>
