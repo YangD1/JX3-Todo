@@ -330,18 +330,7 @@
       title: 'JX3 Todo'
     },
     mounted() {
-      // 这里用 store 的 nuxtServerInit 方法也可以刷新的时候重新获取信息
-      // this.$axios.post('http://127.0.0.1:3344/verify')
-      // .then(response => {
-      //   console.log(response.data)
-      // })
-      // .catch((error) => {
-      //   console.log(error.response.data)
-      // })
-        console.log(this.$store.state.user)
-      if(this.$store.state.user){
-        console.log(this.$store.state.user)
-      }
+      console.log(this.$store.state.user)
     },
   }
 </script>
