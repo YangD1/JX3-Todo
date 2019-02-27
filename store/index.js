@@ -1,5 +1,5 @@
 export const state = () => ({
-  user: {}
+  user: ''
 })
 export const actions = {
   async nuxtServerInit({ commit, duspatch }, { req, app}){
@@ -9,6 +9,7 @@ export const actions = {
     } catch (error) {
       console.log('接口错误')
       console.log(error.response.data)
+      await commit('setUser', '')
     }
   }
 }
@@ -17,5 +18,6 @@ export const mutations = {
     if (data) {
       state.user = data
     }
+    console.log(state.user)
   }
 }

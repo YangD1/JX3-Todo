@@ -1,93 +1,8 @@
 <template>
   <v-app id="todobody">
     <!-- base right navigation drawer -->
-    <v-navigation-drawer
-      v-model="drawerRight"
-      fixed
-      right
-      clipped
-      disable-route-watcher
-      app
-    >
-    <!-- right slide tab -->
-      <v-tabs
-        class="right-slide-tab"
-        centered
-        color="primary"
-        slider-color="yellow"
-        v-if="!$store.state.user"
-        dark>
-        <v-tab
-          ripple
-        >
-        登录
-        </v-tab>
-        <v-tab
-          ripple
-        >
-        注册
-        </v-tab>
-        <v-tab-item>
-          <v-card style="padding: 10px 20px" flat>
-            <v-text-field
-              label="Email"
-              autofocus
-              required
-              v-model="account.email"
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              type="password"
-              v-model="account.password"
-              required
-            ></v-text-field>
-            <div class="text-xs-center">
-              <v-btn color="#0277BD" dark @click="login">登录</v-btn>
-            </div>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card style="padding: 10px 20px" flat>
-            <v-text-field
-              label="Email"
-              v-model="account.email"
-              required
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              type="password"
-              v-model="account.password"
-              required
-            ></v-text-field>
-            <div class="text-xs-center">
-              <v-btn color="#30a91a" dark @click="register">注册</v-btn>
-            </div>
-          </v-card>
-        </v-tab-item>
-      </v-tabs>
-      <!-- async element -->
-      <div
-        class="async-div text-xs-center"
-        v-if="$store.state.user">
-        <v-btn
-          :disabled="dialog"
-          :loading="dialog"
-          class="white--text"
-          color="primary"
-          @click="dialog = true"
-        >
-        <v-icon>sync</v-icon>
-        <span> 同步</span>
-        </v-btn>
-        <v-btn
-        color="error"
-        @click="logout">
-          <v-icon>power_settings_new</v-icon>
-          <span>  登出</span>
-        </v-btn>
-      </div>
-    </v-navigation-drawer>
-
+    <rightNavigation
+    :drawerRight="drawerRight" />
     <!-- header toolbar -->
     <v-toolbar
       fixed
@@ -227,27 +142,6 @@
       </v-btn>
     </v-snackbar>
 
-    <!-- dialog with async -->
-    <v-dialog
-      v-model="dialog"
-      hide-overlay
-      persistent
-      width="300"
-    >
-      <v-card
-        color="primary"
-        dark
-      >
-        <v-card-text>
-          正在同步...
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          ></v-progress-linear>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
 
     <!-- mobile slide button -->
     <v-btn
@@ -274,13 +168,15 @@
 </template>
 
 <script>
+import rightNavigation from '~/components/skeleton/right-navigation-drawer'
   export default {
+    components:{
+      rightNavigation
+    },
     data: () => ({
       drawer: false,
       drawerRight: false,
-      account: {email: '', password: ''},
       left: false,
-      dialog: false,
       snackbar: {state: false, message: 'Default info.'},
       urlItems: [
         { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
@@ -309,53 +205,10 @@
             break;
         }
       },
-      register(){
-        this.$axios.post( this.$store.state.api.register, this.account ).then(( response )=>{
-          this.message({
-            message: response.data.message,
-            type: 'success'
-          })
-          // do login
-        }).catch(( error )=>{
-          this.message({
-            message: error.response.data.message,
-            type: 'error'
-          })
-        })
-      },
-
-      login(){
-        this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
-          this.message({
-            message: response.data.message,
-            type: response.data.type
-          })
-        }).catch(( error )=>{
-          this.message({
-            message: error.response.data.message,
-            type: 'error'
-          })
-        })
-      },
-
-      logout(){
-        this.$axios.post( 'http://127.0.0.1:2233/api/logout' ).then((response) => {
-          this.message({
-            message: response.data.message,
-            type: response.data.type
-          })
-        })
-        .catch((error) => {
-          this.message({
-            type: 'error',
-            message: '登出失败'
-          })
-        })
-      },
 
       mountedMessage(){
         let message = {}
-        if( this.$store.state.user ){
+        if( this.$store.state.user && JSON.stringify(this.$store.state.user) != '{}' ){
           message = {
             type: 'success',
             message: '欢迎回来'
@@ -373,10 +226,6 @@
       source: String
     },
     watch: {
-      dialog (val) {
-        if (!val) return
-        setTimeout(() => (this.dialog = false), 4000)
-      },
       '$route': function(){
         this.left = false
         this.drawer = false
