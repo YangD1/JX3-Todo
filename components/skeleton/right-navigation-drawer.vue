@@ -7,6 +7,7 @@
     disable-route-watcher
     app
   >
+  <Message />
   <!-- right slide tab -->
     <v-tabs
       class="right-slide-tab"

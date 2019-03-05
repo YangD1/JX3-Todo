@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import colors from 'vuetify/es5/util/colors'
+import Message from '~/components/common/message'
 
 Vue.use(Vuetify, {
   theme: {
@@ -13,3 +14,5 @@ Vue.use(Vuetify, {
     success: colors.green.accent3
   }
 })
+
+Vue.component('Message',Message)

@@ -23,10 +23,11 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-tile
+            v-ripple
             v-for="(item,index) in 10"
             :key="index"
             router
-            :to="'/'+item"
+            to="#"
           >
             <v-list-tile-content>item {{ index }}</v-list-tile-content>
           </v-list-tile>
@@ -49,14 +50,8 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
   layout: 'views/default',
-  components: {
-    Logo,
-    VuetifyLogo
-  }
 }
 </script>

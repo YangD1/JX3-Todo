@@ -200,6 +200,9 @@ import rightNavigation from '~/components/skeleton/right-navigation-drawer'
           case 'error':
             this.snackbar.color = '#F44336'
             break;
+          case 'warning':
+            this.snackbar.color = "#F95D02"
+            break;
           default:
             this.snackbar.color = '#FFFFFF'
             break;
@@ -215,7 +218,7 @@ import rightNavigation from '~/components/skeleton/right-navigation-drawer'
           }
         }else{
           message = {
-            type: 'error',
+            type: 'warning',
             message: '请重新登录'
           }
         }
