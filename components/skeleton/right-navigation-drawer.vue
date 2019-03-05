@@ -7,7 +7,6 @@
     disable-route-watcher
     app
   >
-  <Message />
   <!-- right slide tab -->
     <v-tabs
       class="right-slide-tab"
@@ -137,7 +136,19 @@ export default {
       this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
         location.reload()
       }).catch(( error )=>{
-        console.error({ message: error.response.data.message })
+        let message
+        if(error.response.data.message){
+          message = {
+            message: error.response.data.message,
+            type: 'error'
+          }
+        }else{
+          message = {
+            message: error.response.data,
+            type: 'error'
+          }
+        }
+        this.$store.commit('snackbar/Message', message)
       })
     },
 

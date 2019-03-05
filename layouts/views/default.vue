@@ -126,22 +126,7 @@
       </v-container>
     </v-content>
 
-    <!-- snackbar -->
-    <v-snackbar
-      :top="true"
-      :color="snackbar.color"
-      v-model="snackbar.state"
-    >
-      {{ snackbar.message }}
-      <v-btn
-        color="#fff"
-        flat
-        @click="snackbar.state = false"
-      >
-        ×
-      </v-btn>
-    </v-snackbar>
-
+    <Message />
 
     <!-- mobile slide button -->
     <v-btn
@@ -169,15 +154,15 @@
 
 <script>
 import rightNavigation from '~/components/skeleton/right-navigation-drawer'
+import Message from '~/components/common/message'
   export default {
     components:{
-      rightNavigation
+      rightNavigation, Message
     },
     data: () => ({
       drawer: false,
       drawerRight: false,
       left: false,
-      snackbar: {state: false, message: 'Default info.'},
       urlItems: [
         { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
       ],
@@ -190,25 +175,6 @@ import rightNavigation from '~/components/skeleton/right-navigation-drawer'
       ],
     }),
     methods: {
-      message({message, type}){
-        this.snackbar.message = message
-        this.snackbar.state = true
-        switch (type) {
-          case 'success':
-            this.snackbar.color = 'rgb(48, 169, 26)'
-            break;
-          case 'error':
-            this.snackbar.color = '#F44336'
-            break;
-          case 'warning':
-            this.snackbar.color = "#F95D02"
-            break;
-          default:
-            this.snackbar.color = '#FFFFFF'
-            break;
-        }
-      },
-
       mountedMessage(){
         let message = {}
         if( this.$store.state.user && JSON.stringify(this.$store.state.user) != '{}' ){
@@ -222,14 +188,14 @@ import rightNavigation from '~/components/skeleton/right-navigation-drawer'
             message: '请重新登录'
           }
         }
-        this.message(message)
+        this.$store.commit('snackbar/Message', message)
       }
     },
     props: {
       source: String
     },
     watch: {
-      '$route': function(){
+      $route: function(){
         this.left = false
         this.drawer = false
         this.drawerRight = false
