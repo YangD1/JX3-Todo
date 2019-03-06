@@ -69,6 +69,19 @@
     <div
       class="async-div text-xs-center"
       v-if="logined == true">
+      <v-alert
+        :value="true"
+        color="success"
+        icon="mail"
+        outline
+      >
+      <b>Email:</b>  {{ $store.state.user.email }}
+      </v-alert>
+    <v-alert
+      :value="true"
+      color="info"
+      outline
+    >
       <v-btn
         :disabled="dialog"
         :loading="dialog"
@@ -85,6 +98,7 @@
         <v-icon>power_settings_new</v-icon>
         <span>  登出</span>
       </v-btn>
+    </v-alert>
     </div>
     <!-- dialog with async -->
     <v-dialog
