@@ -12,35 +12,34 @@ router.get('/api/list', (ctx) => {
 router.post('/api/login',  async (ctx) => {
   const { email, password } = ctx.request.body
   let backInfo
+  let res
   try {
-    const res = await axios.post('http://127.0.0.1:3344/login', { email, password })
+    res = await axios.post('http://127.0.0.1:3344/login', { email, password })
+    if(res.data.token){
+      ctx.cookies.set('token',res.data.token, {
+        maxAge: 3600 * 1000,
+        httpOnly: true
+      })
+      backInfo = {
+        message: res.data.message,
+        type: 'success'
+      }
+    }else{
+      backInfo = {
+        type: 'error',
+        message: res.data.message
+      }
+    }
+    return ctx.body = backInfo
   } catch (error) {
     ctx.status = 403
     backInfo = {
       type: 'error',
       ...error.response.data
     }
-    ctx.body = backInfo
-    return
+    return ctx.body = backInfo
   }
 
-  if(res.data.token){
-    ctx.cookies.set('token',res.data.token, {
-      maxAge: 3600 * 1000,
-      httpOnly: true
-    })
-    backInfo = {
-      message: res.data.message,
-      type: 'success'
-    }
-  }else{
-    backInfo = {
-      type: 'error',
-      message: res.data.message
-    }
-  }
-
-  ctx.body = backInfo
 })
 
 module.exports = router;

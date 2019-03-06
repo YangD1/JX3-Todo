@@ -175,21 +175,21 @@ import Message from '~/components/common/message'
       ],
     }),
     methods: {
-      mountedMessage(){
-        let message = {}
-        if( this.$store.state.user && JSON.stringify(this.$store.state.user) != '{}' ){
-          message = {
-            type: 'success',
-            message: '欢迎回来'
-          }
-        }else{
-          message = {
-            type: 'warning',
-            message: '请重新登录'
-          }
-        }
-        this.$store.commit('snackbar/Message', message)
-      }
+      // mountedMessage(){
+      //   let message = {}
+      //   if( this.$store.state.user && JSON.stringify(this.$store.state.user) != '{}' ){
+      //     message = {
+      //       type: 'success',
+      //       message: '欢迎回来'
+      //     }
+      //   }else{
+      //     message = {
+      //       type: 'warning',
+      //       message: '请重新登录'
+      //     }
+      //   }
+      //   this.$store.commit('snackbar/Message', message)
+      // }
     },
     props: {
       source: String
@@ -204,10 +204,10 @@ import Message from '~/components/common/message'
     head:{
       title: 'JX3 Todo'
     },
-    mounted() {
-      // show message
-      this.mountedMessage()
-    },
+    // mounted() {
+    //   // show message
+    //   this.mountedMessage()
+    // },
   }
 </script>
 <style lang="stylus">

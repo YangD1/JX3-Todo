@@ -13,7 +13,7 @@
       centered
       color="primary"
       slider-color="yellow"
-      v-if="!$store.state.user || JSON.stringify($store.state.user)  == '{}'"
+      v-if="logined == false"
       dark>
       <v-tab
         ripple
@@ -40,7 +40,7 @@
             required
           ></v-text-field>
           <div class="text-xs-center">
-            <v-btn color="#0277BD" dark @click="login">登录</v-btn>
+            <v-btn color="#0277BD" dark @click.native.prevent="login">登录</v-btn>
           </div>
         </v-card>
       </v-tab-item>
@@ -66,7 +66,7 @@
     <!-- async element -->
     <div
       class="async-div text-xs-center"
-      v-if="$store.state.user && JSON.stringify($store.state.user) != '{}'">
+      v-if="logined == true">
       <v-btn
         :disabled="dialog"
         :loading="dialog"
@@ -115,6 +115,7 @@ export default {
       email: '',
       password: ''
     },
+    logined: false,
     dialog: false
   }),
   props: {
@@ -138,28 +139,21 @@ export default {
     },
 
     login(){
+      let message
       if( !this.account.email || !this.account.password ){
         this.$store.commit('snackbar/Message', { message: '账号密码不能为空', type: 'error' })
         return
       }
-
       this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
-        location.reload()
+        this.$store.commit('snackbar/Message', response.data)
+        this.logined = true
       }).catch(( error )=>{
-        let message
-        console.log(error.response.data.message)
         if(error.response.data.message){
-          message = {
-            message: error.response.data.message,
-            type: 'error'
-          }
+          message = error.response.data.message
         }else{
-          message = {
-            message: error.response.data,
-            type: 'error'
-          }
+          message = error.response.data
         }
-        this.$store.commit('snackbar/Message', message)
+        this.$store.commit('snackbar/Message', { type: 'error',  ...message})
       })
     },
 
@@ -178,8 +172,15 @@ export default {
       setTimeout(() => (this.dialog = false), 4000)
     },
   },
+  updated() {
+    console.log(this.logined)
+  },
   mounted() {
-    console.log(JSON.stringify(this.$store.state.user))
+    if(this.$store.state.user && JSON.stringify(this.$store.state.user) == '{}'){
+      this.logined = false
+    }else{
+      this.logined = true
+    }
   },
 }
 </script>
