@@ -42,7 +42,7 @@
             required
           ></v-text-field>
           <div class="text-xs-center">
-            <v-btn color="#0277BD" dark @click.native.prevent="login">登录</v-btn>
+            <v-btn color="#0277BD" dark @click="login">登录</v-btn>
           </div>
         </v-card>
       </v-tab-item>
@@ -51,12 +51,14 @@
           <v-text-field
             label="Email"
             v-model="account.email"
+            @keyup.native.enter="register"
             required
           ></v-text-field>
           <v-text-field
             label="Password"
             type="password"
             v-model="account.password"
+            @keyup.native.enter="register"
             required
           ></v-text-field>
           <div class="text-xs-center">
@@ -131,6 +133,7 @@ export default {
       email: '',
       password: ''
     },
+    user: {},
     logined: false,
     dialog: false
   }),
@@ -165,9 +168,9 @@ export default {
         this.logined = true
       }).catch(( error )=>{
         if(error.response.data.message){
-          message = error.response.data.message
+          message = { message: error.response.data.message }
         }else{
-          message = error.response.data
+          message = { message: error.response.data }
         }
         this.$store.commit('snackbar/Message', { type: 'error',  ...message})
       })
