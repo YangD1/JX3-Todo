@@ -143,27 +143,13 @@ export default {
     },
   },
   methods: {
-
-    register(){
-      if( !this.account.email || !this.account.password ){
-        this.$store.commit('snackbar/Message', { message: '账号密码不能为空', type: 'error' })
-        return
-      }
-
-      this.$axios.post( this.$store.state.api.register, this.account ).then(( response )=>{
-        this.login()
-      }).catch(( error )=>{
-        console.error({ message: error.response.data.message })
-      })
-    },
-
-    login(){
+    createSession({ url }){
       let message
       if( !this.account.email || !this.account.password ){
         this.$store.commit('snackbar/Message', { message: '账号密码不能为空', type: 'error' })
         return
       }
-      this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
+      this.$axios.post( url, this.account ).then(( response )=>{
         this.$store.commit('snackbar/Message', response.data)
         this.logined = true
       }).catch(( error )=>{
@@ -174,6 +160,14 @@ export default {
         }
         this.$store.commit('snackbar/Message', { type: 'error',  ...message})
       })
+    },
+
+    register(){
+      this.createSession({url: 'http://127.0.0.1:2233/api/register'})
+    },
+
+    login(){
+      this.createSession({ url: 'http://127.0.0.1:2233/api/login' })
     },
 
     logout(){
