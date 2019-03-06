@@ -31,12 +31,14 @@
             label="Email"
             autofocus
             required
+            @keyup.native.enter="login"
             v-model="account.email"
           ></v-text-field>
           <v-text-field
             label="Password"
             type="password"
             v-model="account.password"
+            @keyup.native.enter="login"
             required
           ></v-text-field>
           <div class="text-xs-center">
