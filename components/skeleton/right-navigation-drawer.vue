@@ -125,6 +125,11 @@ export default {
   methods: {
 
     register(){
+      if( !this.account.email || !this.account.password ){
+        this.$store.commit('snackbar/Message', { message: '账号密码不能为空', type: 'error' })
+        return
+      }
+
       this.$axios.post( this.$store.state.api.register, this.account ).then(( response )=>{
         this.login()
       }).catch(( error )=>{
@@ -133,10 +138,16 @@ export default {
     },
 
     login(){
+      if( !this.account.email || !this.account.password ){
+        this.$store.commit('snackbar/Message', { message: '账号密码不能为空', type: 'error' })
+        return
+      }
+
       this.$axios.post( 'http://127.0.0.1:2233/api/login', this.account ).then(( response ) => {
         location.reload()
       }).catch(( error )=>{
         let message
+        console.log(error.response.data.message)
         if(error.response.data.message){
           message = {
             message: error.response.data.message,
