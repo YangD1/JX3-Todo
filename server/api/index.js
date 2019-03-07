@@ -15,6 +15,7 @@ router.post('/api/login',  async (ctx) => {
   let res
   try {
     res = await axios.post('http://127.0.0.1:3344/login', { email, password })
+    console.log(res.data)
     if(res.data.token){
       ctx.cookies.set('token',res.data.token, {
         maxAge: 3600 * 1000,
@@ -22,7 +23,8 @@ router.post('/api/login',  async (ctx) => {
       })
       backInfo = {
         message: res.data.message,
-        type: 'success'
+        type: 'success',
+        user: res.data.user
       }
     }else{
       backInfo = {
@@ -54,12 +56,13 @@ router.post('/api/register', async (ctx) => {
       })
       backInfo = {
         message: res.data.message,
-        type: 'success'
+        type: 'success',
+        user: res.data.user
       }
     }else{
       backInfo = {
         type: 'error',
-        message: res.data.message
+        message: res.data.message,
       }
     }
     return ctx.body = backInfo

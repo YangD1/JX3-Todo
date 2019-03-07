@@ -77,7 +77,7 @@
         icon="mail"
         outline
       >
-      <b>Email:</b>  {{ $store.state.user.email }}
+      <b>Email:</b>  {{ $store.state.user.email || user.email }}
       </v-alert>
     <v-alert
       :value="true"
@@ -151,6 +151,7 @@ export default {
       }
       this.$axios.post( url, this.account ).then(( response )=>{
         this.$store.commit('snackbar/Message', response.data)
+        this.user = response.data.user
         this.logined = true
       }).catch(( error )=>{
         if(error.response.data.message){
