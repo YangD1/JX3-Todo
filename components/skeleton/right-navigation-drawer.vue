@@ -173,10 +173,13 @@ export default {
 
     logout(){
       this.$axios.post( 'http://127.0.0.1:2233/api/logout' ).then((response) => {
-        //
+        this.$store.commit('snackbar/Message', '')
+        this.user = response.data.user
+        this.logined = false
+        this.account = {}
       })
       .catch((error) => {
-        //
+        console.log(error)
       })
     },
   },

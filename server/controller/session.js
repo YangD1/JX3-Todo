@@ -2,6 +2,7 @@ const axios = require('axios')
 const config = require('../../nuxt.config.js')
 
 module.exports = {
+  // login
   login: async (ctx) => {
     const { email, password } = ctx.request.body
     let backInfo
@@ -34,9 +35,18 @@ module.exports = {
       return ctx.body = backInfo
     }
   },
-  signOut: async (ctx) => {
 
+  // sign out
+  logout: async (ctx) => {
+    ctx.cookies.set('token', '')
+    backInfo = {
+      type: 'success',
+      message: 'Sign out.'
+    }
+    return ctx.body = backInfo
   },
+
+  // register
   register: async (ctx) => {
     const { email, password } = ctx.request.body
     let backInfo
