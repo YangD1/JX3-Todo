@@ -1,7 +1,8 @@
 const Koa = require('koa')
 const consola = require('consola')
-const Router = require('koa-router');
-const bodyParser = require('koa-bodyParser')  /* parser post */
+const middleware = require('./middleware')
+const koaBody = require('koa-body')
+const cors = require('@koa/cors')
 
 const {
   Nuxt,
@@ -9,18 +10,22 @@ const {
 } = require('nuxt')
 
 const app = new Koa()
-app.use(bodyParser())
+
+app.use(koaBody({
+  multipart: true
+}))
+
+app.use(cors({
+  credentials: true
+}))
+
+middleware(app)
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(app.env === 'production')
 
 async function start() {
-  // loader router
-  let router = new Router()
-  app.use(require('./api/index').routes())
-  app.use(router.routes(), router.allowedMethods());
-
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config)
 

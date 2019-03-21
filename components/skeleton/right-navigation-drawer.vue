@@ -195,6 +195,7 @@ export default {
     }else{
       this.logined = true
     }
+    console.log(process.env.baseUrl)
   },
 }
 </script>
