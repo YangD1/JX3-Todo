@@ -157,8 +157,8 @@ import Message from '~/components/common/message'
       },
     },
     methods: {
+      // control left navigation drawer
       backLeftBaseNav(){
-        console.log('back')
         this.left = false
       }
     },

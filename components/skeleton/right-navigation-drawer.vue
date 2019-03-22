@@ -70,7 +70,7 @@
     <!-- async element -->
     <div
       class="async-div text-xs-center"
-      v-if="logined == true">
+      v-else>
       <v-alert
         :value="true"
         color="success"
@@ -190,7 +190,7 @@ export default {
     },
   },
   mounted() {
-    if(this.$store.state.user && JSON.stringify(this.$store.state.user) == '{}'){
+    if( !this.$store.state.user || JSON.stringify(this.$store.state.user) == '{}'){
       this.logined = false
     }else{
       this.logined = true
