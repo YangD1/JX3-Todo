@@ -27,7 +27,15 @@
         </v-btn>
       </v-list-tile-action>
     </v-list-tile>
-    <v-btn @click="$emit('backLeftBaseNav')">BACK</v-btn>
+    <div class="text-xs-center left-nav">
+    <v-alert
+      :value="true"
+      color="#f1f1f1"
+    >
+      <v-btn color="#4caf50" dark @click="$emit('backLeftBaseNav')">添加账号</v-btn>
+      <v-btn @click="$emit('backLeftBaseNav')">返回</v-btn>
+    </v-alert>
+    </div>
   </v-list>
   </v-navigation-drawer>
 </template>
@@ -42,6 +50,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus" scoped>
+.left-nav
+  position absolute
+  bottom 30px
+  left 0
+  width 100%
 </style>
