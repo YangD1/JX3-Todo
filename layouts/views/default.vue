@@ -75,49 +75,20 @@
         </v-list-tile-action>
       </v-list-tile>
 
-        <v-list-tile @click.stop="left = !left" disabled>
-          <v-list-tile-action>
-            <v-icon>perm_data_setting</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title style="font-size: 14px">参与项目</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+      <v-list-tile @click.stop="left = !left" disabled>
+        <v-list-tile-action>
+          <v-icon>perm_data_setting</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title style="font-size: 14px">参与项目</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
-    <!-- left navigation drawer -->
-    <v-navigation-drawer
-      v-model="left"
-      temporary
-      fixed
-    >
-    <v-list>
-      <v-list-tile
-        v-for="item in accountItems"
-        :key="item.title"
-        router
-        nuxt
-        :to="item.url"
-        avatar
-      >
-        <v-list-tile-avatar>
-          <img :src="item.icon">
-        </v-list-tile-avatar>
-
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
-        </v-list-tile-content>
-
-        <v-list-tile-action>
-          <v-btn icon ripple>
-            <v-icon color="grey lighten-1">info</v-icon>
-          </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
-    </v-list>
-    </v-navigation-drawer>
+    <leftNavigation
+    :left="left"
+    @backLeftBaseNav="backLeftBaseNav" />
 
     <!-- content -->
     <v-content>
@@ -154,26 +125,27 @@
 
 <script>
 import rightNavigation from '~/components/skeleton/right-navigation-drawer'
+import leftNavigation from '~/components/skeleton/left-navigation-drawer'
 import Message from '~/components/common/message'
   export default {
     components:{
-      rightNavigation, Message
+      rightNavigation,
+      leftNavigation,
+      Message
     },
-    data: () => ({
-      drawer: false,
-      drawerRight: false,
-      left: false,
-      urlItems: [
-        { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
-      ],
-      funcItems: [
-        { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '2018-9-22 5:00 pm' }
-      ],
-      accountItems: [
-        { icon: require('~/assets/mp-icon/cangjian.png'), title: '藏剑', subtitle: '2018-9-22 3:20 pm', url: '/gaibang' },
-        { icon: require('~/assets/mp-icon/gaibang.png'), title: '丐帮', subtitle: '2018-9-22 3:20 pm', url: '/cangjian' },
-      ],
-    }),
+    data() {
+      return {
+        drawer: false,
+        drawerRight: false,
+        left: false,
+        urlItems: [
+          { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
+        ],
+        funcItems: [
+          { icon: 'assignment', iconClass: 'amber white--text', title: '账号列表', subtitle: '2018-9-22 5:00 pm' }
+        ]
+      }
+    },
     props: {
       source: String
     },
@@ -184,9 +156,15 @@ import Message from '~/components/common/message'
         this.drawerRight = false
       },
     },
+    methods: {
+      backLeftBaseNav(){
+        console.log('back')
+        this.left = false
+      }
+    },
     head:{
       title: 'JX3 Todo'
-    }
+    },
   }
 </script>
 <style lang="stylus">
