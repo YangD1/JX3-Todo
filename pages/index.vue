@@ -24,10 +24,10 @@
         <v-list>
           <v-list-tile
             v-ripple
-            v-for="(item,index) in 10"
+            v-for="(item,index) in $store.state.qiyu.qiyuList"
             :key="index"
             router
-            to="#"
+            :to="'#' + index"
           >
             <v-list-tile-content>item {{ index }}</v-list-tile-content>
           </v-list-tile>

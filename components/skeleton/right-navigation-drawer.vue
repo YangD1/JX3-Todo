@@ -189,16 +189,12 @@ export default {
       setTimeout(() => (this.dialog = false), 4000)
     },
   },
-  updated() {
-    console.log(this.logined)
-  },
   mounted() {
     if(this.$store.state.user && JSON.stringify(this.$store.state.user) == '{}'){
       this.logined = false
     }else{
       this.logined = true
     }
-    console.log(process.env.baseUrl)
   },
 }
 </script>
