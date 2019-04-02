@@ -3,13 +3,11 @@
     <v-flex lg6 offset-lg3 xs12 >
       <v-card class="card--flex-toolbar">
         <v-toolbar card prominent>
-          <v-toolbar-title class="body-2 grey--text">Title</v-toolbar-title>
-
+          <v-toolbar-title class="body-2 grey--text">奇遇列表</v-toolbar-title>
           <v-spacer></v-spacer>
-
           <v-text-field
             v-model="search"
-            label="Search"
+            label="宠物名称"
             single-line
             hide-details
             style="padding-top: 0"
@@ -18,20 +16,16 @@
             transition="scale-transition"
             origin="center center"
           ></v-text-field>
-
           <v-btn icon @click="searchVisible = !searchVisible">
             <v-icon>search</v-icon>
           </v-btn>
-
           <v-btn icon>
             <v-icon>apps</v-icon>
           </v-btn>
-
           <v-btn icon>
             <v-icon>more_vert</v-icon>
           </v-btn>
         </v-toolbar>
-
         <v-divider></v-divider>
         <v-data-table
           :headers="headers"
@@ -51,14 +45,13 @@
                 hide-details
               ></v-checkbox>
             </td>
-            <td><b :style="'color:' + props.item.rare">{{ props.item.pet_name }}</b></td>
+            <td><b :style="'color:' + props.item.rare + ';font-size: 16px'">{{ props.item.pet_name }}</b></td>
             <td class="text-xs-right">{{ props.item.name }}</td>
             <td class="text-xs-right">{{ props.item.map }}</td>
             <td class="text-xs-right">{{ props.item.start_npc }}</td>
             <td class="text-xs-right">{{ props.item.coordinate }}</td>
           </template>
         </v-data-table>
-
       </v-card>
     </v-flex>
   </v-layout>
