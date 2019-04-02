@@ -21,29 +21,33 @@
         </v-toolbar>
 
         <v-divider></v-divider>
-        <v-list>
-          <v-list-tile
-            v-ripple
-            v-for="(item,index) in $store.state.qiyu.qiyuList"
-            :key="index"
-            router
-            :to="'#' + index"
-          >
-            <v-list-tile-content>item {{ index }}</v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-        <v-card-text>
-          do
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            flat
-            nuxt
-            to="/inspire"
-          >Continue</v-btn>
-        </v-card-actions>
+
+        <v-data-table
+          :headers="headers"
+          :items="$store.state.qiyu.qiyuList"
+          :loading="loading"
+          :disable-initial-sort="true"
+          :hide-actions="true"
+          :select-all="true"
+          class="elevation-1"
+        >
+          <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+          <template v-slot:items="props">
+            <td>
+              <v-checkbox
+                :input-value="props.selected"
+                primary
+                hide-details
+              ></v-checkbox>
+            </td>
+            <td><b :style="'color:' + props.item.rare">{{ props.item.pet_name }}</b></td>
+            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right">{{ props.item.map }}</td>
+            <td class="text-xs-right">{{ props.item.start_npc }}</td>
+            <td class="text-xs-right">{{ props.item.coordinate }}</td>
+          </template>
+        </v-data-table>
+
       </v-card>
     </v-flex>
   </v-layout>
@@ -53,5 +57,18 @@
 
 export default {
   layout: 'views/default',
+  data(){
+    return {
+      loading: false,
+      selected: [],
+      headers: [
+        { text: '宠物名称', align: 'left',  value: 'pet_name' },
+        { text: '奇遇名称', align: 'right', value: 'name'},
+        { text: '地图', align: 'right', value: 'map' },
+        { text: '起始NPC', align: 'right', value: 'start_npc' },
+        { text: '坐标', align: 'right', value: 'x,y' },
+      ],
+    }
+  }
 }
 </script>
