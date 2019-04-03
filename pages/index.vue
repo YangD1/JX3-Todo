@@ -22,9 +22,18 @@
           <v-btn icon>
             <v-icon>apps</v-icon>
           </v-btn>
-          <v-btn icon>
-            <v-icon>more_vert</v-icon>
-          </v-btn>
+          <v-menu transition="slide-x-transition">
+            <template v-slot:activator="{ on }">
+              <v-btn v-on="on" icon>
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-tile v-for="(n,index) in menus" :key="index" @click="n.func">
+                <v-list-tile-title v-text="n.text"></v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
         </v-toolbar>
         <v-divider></v-divider>
         <v-data-table
@@ -33,23 +42,24 @@
           :loading="loading"
           :disable-initial-sort="true"
           :hide-actions="true"
-          :select-all="true"
           class="elevation-1"
         >
           <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
           <template v-slot:items="props">
-            <td>
-              <v-checkbox
-                :input-value="props.selected"
-                primary
-                hide-details
-              ></v-checkbox>
-            </td>
-            <td><b :style="'color:' + props.item.rare + ';font-size: 16px'">{{ props.item.pet_name }}</b></td>
-            <td class="text-xs-right">{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.map }}</td>
-            <td class="text-xs-right">{{ props.item.start_npc }}</td>
-            <td class="text-xs-right">{{ props.item.coordinate }}</td>
+            <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2'">
+              <td>
+                <b v-if="!props.item.pet_had" :style="'color:' + props.item.rare + ';font-size: 16px'">{{ props.item.pet_name }}</b>
+                <del v-else :style="'color: #ccc;font-size: 16px'">{{ props.item.pet_name }}</del>
+              </td>
+              <td class="text-xs-right">{{ props.item.name }}</td>
+              <td class="text-xs-right">{{ props.item.map }}</td>
+              <td class="text-xs-right">{{ props.item.start_npc }}</td>
+              <td class="text-xs-right">{{ props.item.coordinate }}</td>
+              <td class="text-xs-right" >
+                <v-btn small color="primary" :disabled="props.item.pet_had ? true : false">摸完了!</v-btn>
+                <v-btn small color="error" :disabled="props.item.pet_had ? true : false">出了!</v-btn>
+              </td>
+            </tr>
           </template>
         </v-data-table>
       </v-card>
@@ -73,9 +83,26 @@ export default {
         { text: '地图', align: 'right', value: 'map' },
         { text: '起始NPC', align: 'right', value: 'start_npc' },
         { text: '坐标', align: 'right', value: 'x,y' },
+        { text: '操作', align: 'right', value: 'opt' },
       ],
+      menus: [
+        { text: '全部完成', func: ()=>{ this.toggleAll() } },
+        { text: '全部清除', func: ()=>{} },
+        { text: '只显示已出', func: ()=>{} },
+      ]
     }
-  }
+  },
+  methods: {
+    toggleAll(){
+      if (this.selected.length){
+        this.selected = []
+        console.log(this.selected)
+      }else {
+        this.selected = this.$store.state.qiyu.qiyuList.slice()
+        console.log(this.selected)
+      }
+    }
+  },
 }
 </script>
 
