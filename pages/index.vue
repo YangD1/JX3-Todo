@@ -19,6 +19,46 @@
           <v-btn icon @click="searchVisible = !searchVisible">
             <v-icon>search</v-icon>
           </v-btn>
+          <!-- model change -->
+          <v-btn
+            icon
+            @click.stop="modelChange"
+          >
+            <v-icon>{{ modelName }}</v-icon>
+          </v-btn>
+          <!-- model change dialog -->
+          <v-dialog
+            v-model="dialog"
+            max-width="290"
+          >
+            <v-card>
+              <v-card-title class="headline">切换计算模式</v-card-title>
+
+              <v-card-text>
+                这个模式可以具体到次数和时间
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  color="green darken-1"
+                  flat="flat"
+                  @click="dialog = false"
+                >
+                  返回
+                </v-btn>
+
+                <v-btn
+                  color="green darken-1"
+                  flat="flat"
+                  @click="dialog = false"
+                >
+                  确认
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
           <v-btn icon>
             <v-icon>apps</v-icon>
           </v-btn>
@@ -46,10 +86,10 @@
         >
           <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
           <template v-slot:items="props">
-            <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2'">
+            <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2; color: #ccc'" draggable="true">
               <td>
                 <b v-if="!props.item.pet_had" :style="'color:' + props.item.rare + ';font-size: 16px'">{{ props.item.pet_name }}</b>
-                <del v-else :style="'color: #ccc;font-size: 16px'">{{ props.item.pet_name }}</del>
+                <del v-else :style="'font-size: 16px'">{{ props.item.pet_name }}</del>
               </td>
               <td class="text-xs-right">{{ props.item.name }}</td>
               <td class="text-xs-right">{{ props.item.map }}</td>
@@ -77,6 +117,8 @@ export default {
       search: '',
       searchVisible: false,
       selected: [],
+      modelName: 'timer',
+      dialog: false,
       headers: [
         { text: '宠物名称', align: 'left',  value: 'pet_name' },
         { text: '奇遇名称', align: 'right', value: 'name'},
@@ -86,9 +128,10 @@ export default {
         { text: '操作', align: 'right', value: 'opt' },
       ],
       menus: [
+        { text: '显示全部', func: ()=>{} },
+        { text: '只显示已出', func: ()=>{} },
         { text: '全部完成', func: ()=>{ this.toggleAll() } },
         { text: '全部清除', func: ()=>{} },
-        { text: '只显示已出', func: ()=>{} },
       ]
     }
   },
@@ -100,6 +143,14 @@ export default {
       }else {
         this.selected = this.$store.state.qiyu.qiyuList.slice()
         console.log(this.selected)
+      }
+    },
+    modelChange(){
+      this.dialog = true
+      if(this.modelName == 'timer'){
+        this.modelName = 'web_asset'
+      }else{
+        this.modelName = 'timer'
       }
     }
   },
