@@ -181,38 +181,22 @@ export default {
       }
       this.dialog = false
     },
-    async doSort(start, end) {
-      const startData = this.sortData[start]
-      let sortControl = {}
-      clearTimeout(sortControl.tId)
-      sortControl.tId = setTimeout(async () => {
-        await this.sortData.splice(start, 1)
-        await this.sortData.splice(end, 0, startData)
-        await this.sortData.map((item, index) => {
-          item.order = eval(index + 1)
-        })
-      }, 100)
-    },
     dragenter(index) {
-      console.log('拖拽中，正在路过' + index)
       let dataIndex = this.qiyuList.findIndex(function (qiyu) {
         return qiyu.pet_name == index
       })
-      let old = this.qiyuList.map(item => { return item })
+      let old = this.qiyuList.map(item => {
+        return item
+      })
       this.qiyuList.splice(this.dragIndex, 1)
-      this.qiyuList.splice(dataIndex, 0,old[this.dragIndex])
+      this.qiyuList.splice(dataIndex, 0, old[this.dragIndex])
       this.dragIndex = dataIndex
-      console.log(this.qiyuList)
     },
-    dragend(index) {
-      console.log('拖拽结束' + index)
-    },
+    dragend(index) {},
     dragstart(index) {
-      console.log('拖拽开始' + index)
       this.dragIndex = this.qiyuList.findIndex(function (qiyu) {
         return qiyu.pet_name == index
       })
-      console.log('拖拽下标' + this.dragIndex)
     },
   },
   mounted() {
