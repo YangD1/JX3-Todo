@@ -1,6 +1,6 @@
 <template>
 <v-layout>
-  <v-flex lg6 offset-lg3 xs12>
+  <v-flex lg8 offset-lg2 xs12>
     <v-card class="card--flex-toolbar">
       <v-toolbar card prominent>
         <v-toolbar-title class="body-2 grey--text">奇遇列表</v-toolbar-title>
@@ -31,12 +31,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-btn
-          :loading="sync"
-          :disabled="sync"
-          icon
-          @click="syncLoader = 'sync'"
-        >
+        <v-btn :loading="sync" :disabled="sync" icon @click="syncLoader = 'sync'">
           <v-icon>cached</v-icon>
           <template v-slot:loader>
             <span class="custom-loader">
@@ -61,10 +56,10 @@
         </v-menu>
       </v-toolbar>
       <v-divider></v-divider>
-      <v-data-table :headers="headers" :items="$store.state.qiyu.qiyuList" :loading="loading" :disable-initial-sort="true" :hide-actions="true" class="elevation-1">
+      <v-data-table :headers="headers" :items="$store.state.qiyu.qiyuList" :loading="sync" :disable-initial-sort="true" :hide-actions="true" class="elevation-1">
         <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
         <template v-slot:items="props">
-          <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2; color: #ccc'" draggable="true">
+          <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2; color: #ccc'" draggable="true" @dragenter="dragenter(props.item.pet_name)" @dragend="dragend(props.item.pet_name)" @dragstart="dragstart(props.item.pet_name)">
             <td>
               <b v-if="!props.item.pet_had" :style="'color:' + props.item.rare + ';font-size: 16px'">{{ props.item.pet_name }}</b>
               <del v-else :style="'font-size: 16px'">{{ props.item.pet_name }}</del>
@@ -152,15 +147,17 @@ export default {
     }
   },
   watch: {
-    syncLoader () {
+    syncLoader() {
       const l = this.syncLoader
       this[l] = !this[l]
 
       setTimeout(() => {
         this[l] = false
-        this.$store.commit('snackbar/Message', { type: 'success', message: '同步成功' })
+        this.$store.commit('snackbar/Message', {
+          type: 'success',
+          message: '同步成功'
+        })
       }, 3000)
-
 
       this.syncLoader = null
     }
@@ -182,119 +179,20 @@ export default {
         this.modelName = 'timer'
       }
       this.dialog = false
-    }
+    },
+    dragenter(index) {
+      console.log('拖拽中，正在路过' + index)
+    },
+    dragend(index) {
+      console.log('拖拽结束' + index)
+    },
+    dragstart(index) {
+      console.log('拖拽开始' + index)
+    },
   },
 }
 </script>
 
 <style scoped>
-@-webkit-keyframes flipInX {
-  from {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  40% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-
-  60% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-
-  80% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-  }
-}
-
-@keyframes flipInX {
-  from {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  40% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-
-  60% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-
-  80% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-  }
-}
-
-.flipInX {
-  -webkit-backface-visibility: visible !important;
-  backface-visibility: visible !important;
-  -webkit-animation-name: flipInX;
-  animation-name: flipInX;
-}
-
-.custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+@import url('~/assets/style/animate.styl');
 </style>
