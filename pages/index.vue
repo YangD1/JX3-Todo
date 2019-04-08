@@ -144,6 +144,10 @@ export default {
           text: '全部清除',
           func: () => {}
         },
+        {
+          text: '帮助说明',
+          func: () => {}
+        },
       ]
     }
   },
