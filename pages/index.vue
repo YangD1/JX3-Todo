@@ -5,7 +5,7 @@
       <v-toolbar card prominent>
         <v-toolbar-title class="body-2 grey--text">奇遇列表</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-text-field v-model="search" label="宠物名称" single-line hide-details style="padding-top: 0" class="animated flipInX" v-show="searchVisible" transition="scale-transition" origin="center center"></v-text-field>
+        <v-text-field v-model="search" label="宠物名称" single-line hide-details style="padding-top: 0" class="animated flipInX" v-show="searchVisible" transition="scale-transition" origin="center center" @keyup.native.enter="searchEnter(search)" v-on:input="searchEnter(search)"></v-text-field>
         <v-btn icon @click="searchVisible = !searchVisible">
           <v-icon>search</v-icon>
         </v-btn>
@@ -56,7 +56,7 @@
         </v-menu>
       </v-toolbar>
       <v-divider></v-divider>
-      <v-data-table :headers="headers" :items="qiyuList" :loading="sync" :disable-initial-sort="true" :hide-actions="true" class="elevation-1">
+      <v-data-table :headers="headers" :items="JSON.stringify(searchQiyuList) != '[]' ? searchQiyuList : qiyuList " :loading="sync" :disable-initial-sort="true" :hide-actions="true" class="elevation-1">
         <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
         <template v-slot:items="props">
           <tr :style="!props.item.pet_had ? '' :  'background: #f2f2f2; color: #ccc'" draggable="true" @dragenter="dragenter(props.item.pet_name)" @dragend="dragend(props.item.pet_name)" @dragstart="dragstart(props.item.pet_name)">
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+const Fuse = require('fuse.js')
 export default {
   layout: 'views/default',
   data() {
@@ -95,6 +96,7 @@ export default {
       syncLoader: null,
       sync: false,
       qiyuList: [],
+      searchQiyuList: [],
       headers: [{
           text: '宠物名称',
           align: 'left',
@@ -202,6 +204,15 @@ export default {
         return qiyu.pet_name == index
       })
     },
+    searchEnter(keyword) {
+      var options = {
+        keys: ['pet_name', 'map']
+      }
+      var fuse = new Fuse(this.qiyuList, options)
+      this.searchQiyuList = fuse.search(keyword)
+      console.log(JSON.stringify(this.searchQiyuList))
+      console.log(this.searchQiyuList)
+    }
   },
   mounted() {
     this.qiyuList = this.$store.state.qiyu.list.map(item => {
