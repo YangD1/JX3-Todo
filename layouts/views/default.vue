@@ -17,7 +17,8 @@
       <v-btn
         icon
         large>
-        <v-icon @click.stop="drawerRight = !drawerRight" large>cloud</v-icon>
+        <!-- <v-icon @click.stop="drawerRight = !drawerRight" large>cloud</v-icon> -->
+        <v-icon @click.stop="controlRightDrawer" large>cloud</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -155,16 +156,26 @@ import Message from '~/components/common/message'
         this.drawer = false
         this.drawerRight = false
       },
+      "$store.state.drawerRight": function(){
+        this.drawerRight = this.$store.state.drawerRight
+      }
     },
     methods: {
       // control left navigation drawer
       backLeftBaseNav(){
         this.left = false
+      },
+      // control right navigation
+      controlRightDrawer(){
+        this.$store.commit('drawerRight', !this.drawerRight)
       }
     },
     head:{
       title: 'JX3 Todo'
     },
+    mounted(){
+      this.drawerRight = this.$store.state.drawerRight
+    }
   }
 </script>
 <style lang="stylus">

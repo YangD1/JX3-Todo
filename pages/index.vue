@@ -155,6 +155,14 @@ export default {
   },
   watch: {
     syncLoader() {
+      if(!this.$store.state.user){
+        this.$store.commit('snackbar/Message', {
+          type: 'warning',
+          message: '请先登录'
+        })
+        this.$store.commit('drawerRight', true)
+        return
+      }
       const l = this.syncLoader
       this[l] = !this[l]
 
@@ -210,8 +218,6 @@ export default {
       }
       var fuse = new Fuse(this.qiyuList, options)
       this.searchQiyuList = fuse.search(keyword)
-      console.log(JSON.stringify(this.searchQiyuList))
-      console.log(this.searchQiyuList)
     }
   },
   mounted() {

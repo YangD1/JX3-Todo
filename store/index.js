@@ -3,7 +3,8 @@ export const state = () => ({
   accounts: [
     { icon: require('~/assets/mp-icon/cangjian.png'), title: '藏剑', subtitle: '2018-9-22 3:20 pm', url: '/gaibang' },
     { icon: require('~/assets/mp-icon/gaibang.png'), title: '丐帮', subtitle: '2018-9-22 3:20 pm', url: '/cangjian' },
-  ]
+  ],
+  drawerRight: false
 })
 export const actions = {
   async nuxtServerInit({ commit, duspatch }, { req, app}){
@@ -26,5 +27,9 @@ export const mutations = {
     if(data){
 
     }
-  }
+  },
+  // control right navigation visible
+  drawerRight(state, data) {
+    state.drawerRight = data
+  },
 }
