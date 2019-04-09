@@ -87,6 +87,7 @@ export default {
   data() {
     return {
       loading: false,
+      logined: false,
       search: '',
       searchVisible: false,
       selected: [],
@@ -155,7 +156,7 @@ export default {
   },
   watch: {
     syncLoader() {
-      if(!this.$store.state.user){
+      if(!this.logined){
         this.$store.commit('snackbar/Message', {
           type: 'warning',
           message: '请先登录'
@@ -175,6 +176,12 @@ export default {
       }, 3000)
 
       this.syncLoader = null
+    },
+    "$store.state.user": {
+      handler: function(){
+        this.logined = true
+      },
+      deep: true
     }
   },
   methods: {
@@ -224,6 +231,12 @@ export default {
     this.qiyuList = this.$store.state.qiyu.list.map(item => {
       return item
     }) || []
+
+    if( !this.$store.state.user || JSON.stringify(this.$store.state.user) == '{}'){
+      this.logined = false
+    }else{
+      this.logined = true
+    }
   },
 }
 </script>

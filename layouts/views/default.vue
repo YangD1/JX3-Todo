@@ -157,6 +157,7 @@ import Message from '~/components/common/message'
         this.drawerRight = false
       },
       "$store.state.drawerRight": function(){
+        console.log('ddd')
         this.drawerRight = this.$store.state.drawerRight
       }
     },
