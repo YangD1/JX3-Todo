@@ -151,6 +151,7 @@ export default {
       }
       this.$axios.post( url, this.account ).then(( response )=>{
         this.$store.commit('snackbar/Message', response.data)
+        this.$store.commit('setUser', response.data.user)
         this.user = response.data.user
         this.logined = true
       }).catch(( error )=>{

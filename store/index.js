@@ -21,7 +21,6 @@ export const mutations = {
     if (data) {
       state.user = data
     }
-    console.log(state.user)
   },
   setAccount(state, data) {
     if(data){

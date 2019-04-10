@@ -117,7 +117,7 @@
       class="hidden-md-and-down"
       light
       app>
-      <span>By - <a href="https://github.com/No9Type-S" target="_blank">No9Type-S</a></span>
+      <span>By - <a href="https://github.com/HeroIzuku" target="_blank">HeroIzuku</a></span>
       <v-spacer></v-spacer>
       <span>&copy; 2019</span>
     </v-footer>
