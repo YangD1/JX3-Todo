@@ -72,6 +72,7 @@ module.exports = {
         import: ["~assets/style/variables.styl"]
       }
     },
+    vendor: ['fuse.js'],
 
     /*
     ** You can extend webpack config here

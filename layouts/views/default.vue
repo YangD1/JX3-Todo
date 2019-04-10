@@ -17,7 +17,6 @@
       <v-btn
         icon
         large>
-        <!-- <v-icon @click.stop="drawerRight = !drawerRight" large>cloud</v-icon> -->
         <v-icon @click.stop="controlRightDrawer" large>cloud</v-icon>
       </v-btn>
     </v-toolbar>
@@ -157,7 +156,6 @@ import Message from '~/components/common/message'
         this.drawerRight = false
       },
       "$store.state.drawerRight": function(){
-        console.log('ddd')
         this.drawerRight = this.$store.state.drawerRight
       }
     },
