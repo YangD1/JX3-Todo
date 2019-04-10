@@ -162,6 +162,7 @@ export default {
           message: '请先登录'
         })
         this.$store.commit('drawerRight', true)
+        this.syncLoader = null
         return
       }
       const l = this.syncLoader
