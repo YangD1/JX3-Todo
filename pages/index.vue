@@ -156,6 +156,7 @@ export default {
   },
   watch: {
     syncLoader() {
+      this.addItemToDB();
       if(!this.logined){
         this.$store.commit('snackbar/Message', {
           type: 'warning',
@@ -226,6 +227,60 @@ export default {
       }
       var fuse = new Fuse(this.qiyuList, options)
       this.searchQiyuList = fuse.search(keyword)
+    },
+    // set indexedDB
+    initDB(dbName){
+      var request = window.indexedDB.open(dbName)
+      request.onerror = function(event){
+        console.log('数据库打开失败')
+      }
+      request.onupgradeneeded = function(event){
+        console.log('只在创建表的时候生成')
+        var db = event.target.result
+        var objectStore
+        if(!db.objectStoreNames.contains('qiyu')){
+          objectStore = db.createObjectStore('list', { autoIncrement: true })
+          let obj = [
+            {name: 'pet_name', unique: true},
+            {name: 'start_npc', unique: false},
+            {name: 'coordinate', unique: false},
+            {name: 'name', unique: false},
+            {name: 'rare', unique: false},
+            {name: 'pet_had', unique: false},
+          ]
+          obj.map(item => {
+            objectStore.createIndex(item.name, item.name, { unique: item.unique })
+          })
+        }
+      }
+      return request
+    },
+    // add data to indexedDB
+    addItemToDB(item){
+      var request = this.initDB('qiyu')
+      request.onsuccess = function(event){
+        console.log('加入数据打开数据库成功')
+        var db = event.target.result
+        var request = db.transaction(['list'], 'readwrite').objectStore('list').add(item);
+      }
+    },
+    // read data of indexedDB
+    getAllDataFromDB(){
+      var request = this.initDB('qiyu')
+      request.onsuccess = function(event){
+        var db = event.target.result
+        var objectStore = db.transaction('list').objectStore('list');
+        console.log(objectStore.openCursor())
+        objectStore.openCursor().onsuccess = function(event){
+          console.log(event)
+          var cursor = event.target.result
+          if(cursor){
+            console.log(cursor.value)
+            cursor.continue();
+          }
+        }
+      }
+
     }
   },
   mounted() {
@@ -238,6 +293,10 @@ export default {
     }else{
       this.logined = true
     }
+    this.qiyuList.map(item => {
+      this.addItemToDB(item)
+    })
+    this.getAllDataFromDB()
   },
 }
 </script>
