@@ -215,7 +215,13 @@ export default {
       this.qiyuList.splice(dataIndex, 0, old[this.dragIndex])
       this.dragIndex = dataIndex
     },
-    dragend(index) {},
+    dragend(index) {
+      this.qiyuList.map((item, index) => {
+        item.id = index + 1
+        this.updateDataFromDB(item)
+        return
+      })
+    },
     dragstart(index) {
       this.dragIndex = this.qiyuList.findIndex(function (qiyu) {
         return qiyu.pet_name == index
@@ -239,9 +245,9 @@ export default {
         var db = event.target.result
         var objectStore
         if(!db.objectStoreNames.contains('qiyu')){
-          objectStore = db.createObjectStore('list', { autoIncrement: true })
+          objectStore = db.createObjectStore('list', { keyPath: 'id' })
           let obj = [
-            {name: 'pet_name', unique: true},
+            {name: 'pet_name', unique: false},
             {name: 'start_npc', unique: false},
             {name: 'coordinate', unique: false},
             {name: 'name', unique: false},
@@ -265,9 +271,8 @@ export default {
       }
     },
     // read data of indexedDB
-    getAllDataFromDB(){
+    getAllDataFromDB(setData){
       var request = this.initDB('qiyu')
-      var that = this
       request.onsuccess = function(event){
         var db = event.target.result
         var objectStore = db.transaction('list').objectStore('list');
@@ -275,11 +280,23 @@ export default {
           var cursor = event.target.result
           if(cursor){
             // set component qiyuList data
-            that.qiyuList.push(cursor.value)
+            setData.push(cursor.value)
             cursor.continue();
           }
         }
-        console.log(that.qiyuList)
+      }
+    },
+    // update data of indexedDB
+    updateDataFromDB(updateData){
+      console.log('更新')
+      console.log(updateData)
+      var request = this.initDB('qiyu')
+      request.onsuccess = function(event){
+        var db = event.target.result
+        var req = db.transaction(['list'],'readwrite').objectStore('list').put(updateData)
+        req.onsuccess = function(){
+          console.log('成功更新')
+        }
       }
     }
   },
@@ -288,7 +305,7 @@ export default {
     this.$store.state.qiyu.list.map(item => {
       this.addItemToDB(item)
     })
-    this.getAllDataFromDB()
+    this.getAllDataFromDB(this.qiyuList)
 
     if( !this.$store.state.user || JSON.stringify(this.$store.state.user) == '{}'){
       this.logined = false
