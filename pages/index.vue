@@ -259,7 +259,7 @@ export default {
     addItemToDB(item){
       var request = this.initDB('qiyu')
       request.onsuccess = function(event){
-        console.log('加入数据打开数据库成功')
+        console.log('触发了一次本地添加数据事件')
         var db = event.target.result
         var request = db.transaction(['list'], 'readwrite').objectStore('list').add(item);
       }
@@ -267,36 +267,34 @@ export default {
     // read data of indexedDB
     getAllDataFromDB(){
       var request = this.initDB('qiyu')
+      var that = this
       request.onsuccess = function(event){
         var db = event.target.result
         var objectStore = db.transaction('list').objectStore('list');
-        console.log(objectStore.openCursor())
         objectStore.openCursor().onsuccess = function(event){
-          console.log(event)
           var cursor = event.target.result
           if(cursor){
-            console.log(cursor.value)
+            // set component qiyuList data
+            that.qiyuList.push(cursor.value)
             cursor.continue();
           }
         }
+        console.log(that.qiyuList)
       }
-
     }
   },
   mounted() {
-    this.qiyuList = this.$store.state.qiyu.list.map(item => {
-      return item
-    }) || []
+    // set store state to local DB
+    this.$store.state.qiyu.list.map(item => {
+      this.addItemToDB(item)
+    })
+    this.getAllDataFromDB()
 
     if( !this.$store.state.user || JSON.stringify(this.$store.state.user) == '{}'){
       this.logined = false
     }else{
       this.logined = true
     }
-    this.qiyuList.map(item => {
-      this.addItemToDB(item)
-    })
-    this.getAllDataFromDB()
   },
 }
 </script>
