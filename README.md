@@ -2,7 +2,7 @@
 
 > JX3 HD todo list web application.
 
-状态： 项目构建中
+状态： 可用，但不完善
 
 ## Build Setup
 
