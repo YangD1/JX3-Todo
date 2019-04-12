@@ -70,8 +70,8 @@
             <td class="text-xs-right">{{ props.item.start_npc }}</td>
             <td class="text-xs-right">{{ props.item.coordinate }}</td>
             <td class="text-xs-right">
-              <v-btn small color="primary" :disabled="props.item.pet_had ? true : false">摸完了!</v-btn>
-              <v-btn small color="error" :disabled="props.item.pet_had ? true : false">出了!</v-btn>
+              <v-btn small color="primary" @click="petGet(props.item)" :disabled="props.item.pet_had ? true : false">摸完了!</v-btn>
+              <v-btn small color="error" @click="petGet(props.item)" :disabled="props.item.pet_had ? true : false">出了!</v-btn>
             </td>
           </tr>
         </template>
@@ -240,6 +240,16 @@ export default {
       var fuse = new Fuse(this.qiyuList, options)
       this.searchQiyuList = fuse.search(keyword)
     },
+    // get new pet!
+    petGet(item){
+      item.pet_had = true
+      this.qiyuList.map(i => {
+        if(i.id == item.id){
+          i.pet_had = true
+        }
+      })
+      DB.updateDataFromDB(item)
+    }
   },
   mounted() {
     // set store state to local DB
