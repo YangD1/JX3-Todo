@@ -18,7 +18,8 @@
           <v-card>
             <v-card-title class="headline">切换计算模式</v-card-title>
             <v-card-text>
-              这个模式可以具体到次数和时间
+              这个模式可以具体到次数和时间<br />
+              <strong>更高</strong> <strong>更快</strong> <strong>更强</strong>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -82,6 +83,7 @@
 
 <script>
 const Fuse = require('fuse.js')
+import DB from '~/assets/js/db.js'
 export default {
   layout: 'views/default',
   data() {
@@ -148,6 +150,10 @@ export default {
           func: () => {}
         },
         {
+          text: '重置清单',
+          func: () => {}
+        },
+        {
           text: '帮助说明',
           func: () => {}
         },
@@ -156,7 +162,7 @@ export default {
   },
   watch: {
     syncLoader() {
-      this.addItemToDB();
+      DB.addItemToDB();
       if(!this.logined){
         this.$store.commit('snackbar/Message', {
           type: 'warning',
@@ -218,7 +224,7 @@ export default {
     dragend(index) {
       this.qiyuList.map((item, index) => {
         item.id = index + 1
-        this.updateDataFromDB(item)
+        DB.updateDataFromDB(item)
         return
       })
     },
@@ -234,78 +240,25 @@ export default {
       var fuse = new Fuse(this.qiyuList, options)
       this.searchQiyuList = fuse.search(keyword)
     },
-    // set indexedDB
-    initDB(dbName){
-      var request = window.indexedDB.open(dbName)
-      request.onerror = function(event){
-        console.log('数据库打开失败')
-      }
-      request.onupgradeneeded = function(event){
-        console.log('只在创建表的时候生成')
-        var db = event.target.result
-        var objectStore
-        if(!db.objectStoreNames.contains('qiyu')){
-          objectStore = db.createObjectStore('list', { keyPath: 'id' })
-          let obj = [
-            {name: 'pet_name', unique: false},
-            {name: 'start_npc', unique: false},
-            {name: 'coordinate', unique: false},
-            {name: 'name', unique: false},
-            {name: 'rare', unique: false},
-            {name: 'pet_had', unique: false},
-          ]
-          obj.map(item => {
-            objectStore.createIndex(item.name, item.name, { unique: item.unique })
-          })
-        }
-      }
-      return request
-    },
-    // add data to indexedDB
-    addItemToDB(item){
-      var request = this.initDB('qiyu')
-      request.onsuccess = function(event){
-        console.log('触发了一次本地添加数据事件')
-        var db = event.target.result
-        var request = db.transaction(['list'], 'readwrite').objectStore('list').add(item);
-      }
-    },
-    // read data of indexedDB
-    getAllDataFromDB(setData){
-      var request = this.initDB('qiyu')
-      request.onsuccess = function(event){
-        var db = event.target.result
-        var objectStore = db.transaction('list').objectStore('list');
-        objectStore.openCursor().onsuccess = function(event){
-          var cursor = event.target.result
-          if(cursor){
-            // set component qiyuList data
-            setData.push(cursor.value)
-            cursor.continue();
-          }
-        }
-      }
-    },
-    // update data of indexedDB
-    updateDataFromDB(updateData){
-      console.log('更新')
-      console.log(updateData)
-      var request = this.initDB('qiyu')
-      request.onsuccess = function(event){
-        var db = event.target.result
-        var req = db.transaction(['list'],'readwrite').objectStore('list').put(updateData)
-        req.onsuccess = function(){
-          console.log('成功更新')
-        }
-      }
-    }
   },
   mounted() {
     // set store state to local DB
+    DB.init = {
+      dbName: 'qiyu',
+      index: [
+        {name: 'pet_name', unique: false},
+        {name: 'start_npc', unique: false},
+        {name: 'coordinate', unique: false},
+        {name: 'name', unique: false},
+        {name: 'rare', unique: false},
+        {name: 'pet_had', unique: false},
+      ],
+      storeName: 'list'
+    }
     this.$store.state.qiyu.list.map(item => {
-      this.addItemToDB(item)
+      DB.addItemToDB(item)
     })
-    this.getAllDataFromDB(this.qiyuList)
+    DB.getAllDataFromDB(this.qiyuList)
 
     if( !this.$store.state.user || JSON.stringify(this.$store.state.user) == '{}'){
       this.logined = false
