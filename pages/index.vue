@@ -70,7 +70,7 @@
             <td class="text-xs-right">{{ props.item.start_npc }}</td>
             <td class="text-xs-right">{{ props.item.coordinate }}</td>
             <td class="text-xs-right">
-              <v-btn small color="primary" @click="petGet(props.item)" :disabled="props.item.pet_had ? true : false">摸完了!</v-btn>
+              <v-btn small color="primary" @click="petFinish(props.item)" :disabled="props.item.pet_had ? true : false">摸完了!</v-btn>
               <v-btn small color="error" @click="petGet(props.item)" :disabled="props.item.pet_had ? true : false">出了!</v-btn>
             </td>
           </tr>
@@ -240,15 +240,24 @@ export default {
       var fuse = new Fuse(this.qiyuList, options)
       this.searchQiyuList = fuse.search(keyword)
     },
-    // get new pet!
-    petGet(item){
+    petCommonFun(item){
       item.pet_had = true
+      console.log(this.qiyuList)
       this.qiyuList.map(i => {
         if(i.id == item.id){
           i.pet_had = true
         }
       })
       DB.updateDataFromDB(item)
+    },
+    // get new pet!
+    petGet(item){
+      this.petCommonFun(item)
+      this.$store.commit('snackbar/Message', { type: 'success', message: '账号宠物数据已更新' })
+    },
+    // finish todo
+    petFinish(item){
+      this.petCommonFun(item)
     }
   },
   mounted() {

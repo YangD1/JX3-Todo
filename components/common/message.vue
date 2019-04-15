@@ -20,7 +20,7 @@
 export default {
   data(){
     return {
-      snackbar: {state: false, message: 'Default info.', color: '#545454', type: 'info'},
+      snackbar: {state: false, message: '???????.', color: '#545454', type: 'info'},
     }
   },
   computed: {
