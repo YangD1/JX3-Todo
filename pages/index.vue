@@ -276,6 +276,9 @@ export default {
       this.logined = true
     }
   },
+  head: {
+    title: '剑网3奇遇清单'
+  }
 }
 </script>
 
