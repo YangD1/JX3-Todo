@@ -147,7 +147,7 @@ export default {
         },
         {
           text: '全部清除',
-          func: () => {}
+          func: () => this.clearQiyuList()
         },
         {
           text: '重置清单',
@@ -193,6 +193,12 @@ export default {
     }
   },
   methods: {
+    clearQiyuList(){
+      this.qiyuList.map(item => {
+        item.pet_had = false
+        DB.updateDataFromDB(item)
+      })
+    },
     toggleAll() {
       if (this.selected.length) {
         this.selected = []
@@ -242,7 +248,6 @@ export default {
     },
     petCommonFun(item){
       item.pet_had = true
-      console.log(this.qiyuList)
       this.qiyuList.map(i => {
         if(i.id == item.id){
           i.pet_had = true
