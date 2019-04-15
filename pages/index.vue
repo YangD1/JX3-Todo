@@ -141,13 +141,11 @@ export default {
         },
         {
           text: '全部完成',
-          func: () => {
-            this.toggleAll()
-          }
+          func: () => this.qiyuListHandle(true)
         },
         {
           text: '全部清除',
-          func: () => this.clearQiyuList()
+          func: () => this.qiyuListHandle(false)
         },
         {
           text: '重置清单',
@@ -193,20 +191,11 @@ export default {
     }
   },
   methods: {
-    clearQiyuList(){
+    qiyuListHandle(bool){
       this.qiyuList.map(item => {
-        item.pet_had = false
+        item.pet_had = bool
         DB.updateDataFromDB(item)
       })
-    },
-    toggleAll() {
-      if (this.selected.length) {
-        this.selected = []
-        console.log(this.selected)
-      } else {
-        this.selected = qiyuList.slice()
-        console.log(this.selected)
-      }
     },
     modelChange() {
       if (this.modelName == 'timer') {
