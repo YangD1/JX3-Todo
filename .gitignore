@@ -84,7 +84,10 @@ dist
 sw.*
 
 # chrome debugger
-chrome 
+chrome
 
 # vscode
 .vscode
+
+# mac file manage
+.DS_Store

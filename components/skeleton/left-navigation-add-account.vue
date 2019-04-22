@@ -22,7 +22,7 @@
 
     <v-select
       v-model="select"
-      :items="$store.state.menpai.list"
+      :items="$store.state.menpai.lightList"
       :rules="[v => !!v || '请选择门派']"
       label="门派"
       required
@@ -34,7 +34,7 @@
         dark
         round
       >
-        提交
+        添加
       </v-btn>
     </div>
 
