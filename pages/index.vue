@@ -215,6 +215,7 @@ export default {
       this.qiyuList.splice(this.dragIndex, 1)
       this.qiyuList.splice(dataIndex, 0, old[this.dragIndex])
       this.dragIndex = dataIndex
+      // 因为实现拖动中排序，所以暂时不需要防抖处理
     },
     dragend(index) {
       this.qiyuList.map((item, index) => {

@@ -21,6 +21,7 @@
     "koa-router": "^7.4.0",
     "nuxt": "^2.5.1",
     "qs": "^6.7.0",
+    "underscore": "^1.9.1",
     "vuetify": "^1.5.8",
     "vuetify-loader": "^1.2.1"
   },

@@ -106,7 +106,7 @@
       fab
       bottom
       right
-      color="pink"
+      color="error"
     >
       <v-icon>add</v-icon>
     </v-btn>
@@ -169,11 +169,6 @@ import Message from '~/components/common/message'
 </script>
 <style lang="stylus">
 #odobody
-  // .v-navigation-drawer > .v-list .v-list__tile
-  //   margin 10px
-  // .v-avatar img
-  //   height auto
-  //   width auto
 .async-div
   padding 10px
 .right-slide-tab
