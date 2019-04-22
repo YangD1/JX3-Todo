@@ -28,7 +28,7 @@
       disable-route-watcher
       app
     >
-      <v-list dense>
+      <v-list subheader>
         <v-list-tile
           v-for="item in urlItems"
           :key="item.title"
@@ -101,7 +101,6 @@
 
     <!-- mobile slide button -->
     <v-btn
-      class="hidden-lg-and-up"
       fixed
       dark
       fab
@@ -111,15 +110,6 @@
     >
       <v-icon>add</v-icon>
     </v-btn>
-    <!-- footer -->
-    <v-footer
-      class="hidden-md-and-down"
-      light
-      app>
-      <span>By - <a href="https://github.com/HeroIzuku" target="_blank">HeroIzuku</a></span>
-      <v-spacer></v-spacer>
-      <span>&copy; 2019</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -179,11 +169,11 @@ import Message from '~/components/common/message'
 </script>
 <style lang="stylus">
 #odobody
-  .v-navigation-drawer > .v-list .v-list__tile
-    margin 10px
-  .v-avatar img
-    height auto
-    width auto
+  // .v-navigation-drawer > .v-list .v-list__tile
+  //   margin 10px
+  // .v-avatar img
+  //   height auto
+  //   width auto
 .async-div
   padding 10px
 .right-slide-tab
