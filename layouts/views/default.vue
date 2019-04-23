@@ -100,6 +100,7 @@
     <Message />
 
     <!-- mobile slide button -->
+    <transition name="slide-fade">
     <v-btn
       fixed
       dark
@@ -109,9 +110,12 @@
       color="error"
       v-show="backVisible"
       @click="backToTop"
+      class="backAnimate"
     >
       <v-icon>arrow_upward</v-icon>
     </v-btn>
+    </transition>
+
   </v-app>
 </template>
 
@@ -177,7 +181,7 @@ import Message from '~/components/common/message'
         }
       },
       handleScroll () {
-        if( window.scrollY > (window.innerHeight * 0.25) ){
+        if( window.scrollY > 50 ) {
           this.backVisible = true
         }else{
           this.backVisible = false
@@ -202,7 +206,7 @@ import Message from '~/components/common/message'
     }
   }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 #odobody
 .async-div
   padding 10px
@@ -212,4 +216,12 @@ import Message from '~/components/common/message'
 footer
   padding 10px
   color #545454 !important
+
+.slide-fade-enter-active
+  transition all .3s ease
+.slide-fade-leave-active
+  transition all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+.slide-fade-enter, .slide-fade-leave-to
+  transform translateX(10px)
+  opacity 0
 </style>
