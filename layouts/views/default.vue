@@ -107,8 +107,9 @@
       bottom
       right
       color="error"
+      @click="backToTop"
     >
-      <v-icon>add</v-icon>
+      <v-icon>arrow_upward</v-icon>
     </v-btn>
   </v-app>
 </template>
@@ -157,6 +158,21 @@ import Message from '~/components/common/message'
       // control right navigation
       controlRightDrawer(){
         this.$store.commit('drawerRight', !this.drawerRight)
+      },
+      backToTop(){
+        var timer = null
+        if(process.client){
+          cancelAnimationFrame(timer);
+          timer = requestAnimationFrame(function fn(){
+              var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+              if(oTop > 0){
+                  document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+                  timer = requestAnimationFrame(fn);
+              }else{
+                  cancelAnimationFrame(timer);
+              }
+          });
+        }
       }
     },
     head:{
