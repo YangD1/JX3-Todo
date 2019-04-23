@@ -107,6 +107,7 @@
       bottom
       right
       color="error"
+      v-show="backVisible"
       @click="backToTop"
     >
       <v-icon>arrow_upward</v-icon>
@@ -129,6 +130,7 @@ import Message from '~/components/common/message'
         drawer: false,
         drawerRight: false,
         left: false,
+        backVisible: false,
         urlItems: [
           { icon: 'pets', iconClass: 'blue white--text', title: '奇遇列表', subtitle: '2018-9-22 3:20 pm' },
         ],
@@ -161,7 +163,7 @@ import Message from '~/components/common/message'
       },
       backToTop(){
         var timer = null
-        if(process.client){
+        if(process.browser){
           cancelAnimationFrame(timer);
           timer = requestAnimationFrame(function fn(){
               var oTop = document.body.scrollTop || document.documentElement.scrollTop;
@@ -173,6 +175,13 @@ import Message from '~/components/common/message'
               }
           });
         }
+      },
+      handleScroll () {
+        if( window.scrollY > (window.innerHeight * 0.25) ){
+          this.backVisible = true
+        }else{
+          this.backVisible = false
+         }
       }
     },
     head:{
@@ -180,6 +189,16 @@ import Message from '~/components/common/message'
     },
     mounted(){
       this.drawerRight = this.$store.state.drawerRight
+    },
+    created () {
+      if (process.browser) {
+        window.addEventListener('scroll', this.handleScroll);
+      }
+    },
+    destroyed () {
+      if (process.browser) {
+        window.removeEventListener('scroll', this.handleScroll);
+      }
     }
   }
 </script>
