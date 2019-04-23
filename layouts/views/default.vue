@@ -123,6 +123,7 @@
 import rightNavigation from '~/components/skeleton/right-navigation-drawer'
 import leftNavigation from '~/components/skeleton/left-navigation-drawer'
 import Message from '~/components/common/message'
+import _ from 'underscore'
   export default {
     components:{
       rightNavigation,
@@ -185,24 +186,24 @@ import Message from '~/components/common/message'
           this.backVisible = true
         }else{
           this.backVisible = false
-         }
+        }
       }
     },
     head:{
       title: 'JX3 Todo'
     },
-    mounted(){
-      this.drawerRight = this.$store.state.drawerRight
-    },
     created () {
       if (process.browser) {
-        window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('scroll', _.debounce(this.handleScroll, 300));
       }
     },
     destroyed () {
       if (process.browser) {
         window.removeEventListener('scroll', this.handleScroll);
       }
+    },
+    mounted(){
+      this.drawerRight = this.$store.state.drawerRight
     }
   }
 </script>
@@ -217,11 +218,4 @@ footer
   padding 10px
   color #545454 !important
 
-.slide-fade-enter-active
-  transition all .3s ease
-.slide-fade-leave-active
-  transition all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
-.slide-fade-enter, .slide-fade-leave-to
-  transform translateX(10px)
-  opacity 0
 </style>
