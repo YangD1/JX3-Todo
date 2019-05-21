@@ -14,7 +14,6 @@ export default {
       console.log('数据库打开失败')
     }
     request.onupgradeneeded = function(event){
-      console.log('只在创建表的时候生成')
       var db = event.target.result
       var objectStore
       if(!db.objectStoreNames.contains('qiyu')){
@@ -32,7 +31,6 @@ export default {
     var request = this.initDB()
     let storeName = this.init.storeName
     request.onsuccess = function(event){
-      console.log('触发了一次本地添加数据事件')
       var db = event.target.result
       var request = db.transaction([storeName], 'readwrite').objectStore(storeName).add(item);
     }
