@@ -20,7 +20,7 @@
     "koa-compose": "^4.1.0",
     "koa-router": "^7.4.0",
     "nuxt": "^2.7.1",
-    "qs": "^6.7.0",
+    "qs": "^6.8.3",
     "underscore": "^1.9.1",
     "vuetify": "^1.5.14",
     "vuetify-loader": "^1.2.2"
